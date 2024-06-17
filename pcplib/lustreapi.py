@@ -78,13 +78,6 @@ class stripeObj:
       ostobjects[]: List of lov_user_ost_data_v1 structures as returned by the
       C API.
     """
-    def __init__(self):
-        self.lovdata = lov_user_md_v1()
-        self.stripecount = -1
-        self.stripesize = 0
-        self.stripeoffset = -1
-        self.ostobjects = []
-
     def __str__(self):
         string = "Stripe Count: %i Stripe Size: %i Stripe Offset: %i\n" \
                  % (self.stripecount, self.stripesize, self.stripeoffset)
@@ -92,6 +85,15 @@ class stripeObj:
             string += ("Objidx:\t %i \tObjid:\t %i\n" % (ost.l_ost_idx,
                                                          ost.l_object_id))
         return(string)
+        
+    def __init__(self):
+        self.lovdata = lov_user_md_v1()
+        self.stripecount = -1
+        self.stripesize = 0
+        self.stripeoffset = -1
+        self.ostobjects = []
+
+
 
     def isstriped(self):
         if self.stripecount > 1 or self.stripecount == -1:
