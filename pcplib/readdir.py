@@ -38,9 +38,6 @@ _readdir.restype = _dirent_p
 
 
 class dirent(ctypes.Structure):
-    """This is a python version of the C dirent structure returned by readdir.
-    See the readdir manpage for details of the structure.
-    """
     DT_UNKNOWN = 0
     DT_FIFO    = 1
     DT_CHR     = 2
