@@ -1,0 +1,155 @@
+[
+  {
+    "name": "readdir.py",
+    "path": "pcplib/readdir.py",
+    "content": {
+      "structured": {
+        "description": "A module that provides an interface to the `readdir` system call using ctypes. It exposes the `readdir` function, which takes a directory path as input and returns a list of `dirent` objects representing the contents of the directory. The module uses the `ctypes` library to interact with the underlying system calls. Specifically, it defines classes for the `dirent` structure returned by `readdir`, and provides a high-level interface for working with directories using the `readdir` function.",
+        "items": [
+          {
+            "id": "bbf0f735-1917-7487-3f47-6985e262d64b",
+            "ancestors": [],
+            "description": "Defines a structure to represent a directory entry, comprising various fields for storing information such as file type, name, and length.",
+            "attributes": [
+              {
+                "name": "_fields_",
+                "type_name": "ctypesListctypesStructure",
+                "description": "A list of field names and data types for the structure, including ino_t, off_t, d_reclen, d_type, and d_name."
+              }
+            ],
+            "name": "_cdirent",
+            "location": {
+              "start": 15,
+              "insert": 16,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "class",
+            "length": 8,
+            "docLength": null
+          },
+          {
+            "id": "d7802971-a2d2-a7a7-4a42-3729fd81efbe",
+            "ancestors": [],
+            "description": "Provides a way to represent directory entries as structures with various attributes such as type, name, and file status. It also allows for initialization with either a default value or an existing `cdirent` object.",
+            "attributes": [
+              {
+                "name": "DT_UNKNOWN",
+                "type_name": "int",
+                "description": "0 or 1, representing the file type as unknown or not known, respectively."
+              },
+              {
+                "name": "DT_FIFO",
+                "type_name": "1bit",
+                "description": "0 by default, indicating that the file is a FIFO (first-in, first-out) stream."
+              },
+              {
+                "name": "DT_CHR",
+                "type_name": "2bit",
+                "description": "0 or 1, indicating whether the directory entry is a character special device."
+              },
+              {
+                "name": "DT_DIR",
+                "type_name": "4bit",
+                "description": "0 by default, indicating that the file is a directory."
+              },
+              {
+                "name": "DT_BLK",
+                "type_name": "6bit",
+                "description": "1 of the possible values for the `DT` field, indicating that the file is a block device."
+              },
+              {
+                "name": "DT_REG",
+                "type_name": "8bit",
+                "description": "0 or 1 indicating if the directory entry is a regular file."
+              },
+              {
+                "name": "DT_LNK",
+                "type_name": "10bit",
+                "description": "Used to represent a symbolic link."
+              },
+              {
+                "name": "DT_SOCK",
+                "type_name": "12bit",
+                "description": "Used to represent a socket."
+              },
+              {
+                "name": "DT_WHT",
+                "type_name": "14bit",
+                "description": "0 by default, indicating that the file is a whiteout."
+              }
+            ],
+            "name": "dirent",
+            "location": {
+              "start": 40,
+              "insert": 41,
+              "offset": " ",
+              "indent": 4,
+              "comment": null
+            },
+            "item_type": "class",
+            "length": 18,
+            "docLength": null
+          },
+          {
+            "id": "81d8f78d-5f82-d0ae-b442-f7c007d6a8fd",
+            "ancestors": [
+              "d7802971-a2d2-a7a7-4a42-3729fd81efbe"
+            ],
+            "description": "Sets attributes of a `dirent` object based on those of an input `cdirent` object, either by copying values or setting them to `None`.",
+            "params": [
+              {
+                "name": "cdirent",
+                "type_name": "object",
+                "description": "Used to store an instance of the class `_CDirent`."
+              }
+            ],
+            "returns": null,
+            "name": "__init__",
+            "location": {
+              "start": 51,
+              "insert": 52,
+              "offset": " ",
+              "indent": 8,
+              "comment": null
+            },
+            "item_type": "method",
+            "length": 7,
+            "docLength": null
+          },
+          {
+            "id": "f47ce9a0-d94c-9ba1-544b-6c93378835ae",
+            "ancestors": [],
+            "description": "List directory entries. It opens a directory using the `_opendir` function, reads the contents of the directory using the `_readdir` function, and returns a list of directory entries using the `dirent` function.",
+            "params": [
+              {
+                "name": "directory",
+                "type_name": "str",
+                "description": "A path to a directory or file that represents the location from which entries will be read."
+              }
+            ],
+            "returns": {
+              "type_name": "list",
+              "description": "A collection of directory entry objects."
+            },
+            "name": "readdir",
+            "location": {
+              "start": 59,
+              "insert": 60,
+              "offset": " ",
+              "indent": 4,
+              "comment": {
+                "start": 59,
+                "end": 61
+              }
+            },
+            "item_type": "function",
+            "length": 15,
+            "docLength": 2
+          }
+        ]
+      }
+    }
+  }
+]
