@@ -9,7 +9,6 @@ import readdir
 import time
 import safestat
 from collections import deque
-
 class ParallelWalk():
         def __init__(self, comm, results=None):
         self.comm = comm.Dup()
