@@ -1,11 +1,12 @@
 {
   "meta": {
     "version": "1",
-    "updated_at": "2024-07-04T07:55:19.476Z",
+    "updated_at": "2024-07-04T08:02:02.210Z",
     "created_at": "2024-07-02T14:39:23.850Z",
     "pipelines": [
       "6ba27f27-7188-43f7-9ca2-d24b82c02649",
-      "c34ba46c-cd1b-47e0-81ba-aa187b464799"
+      "c34ba46c-cd1b-47e0-81ba-aa187b464799",
+      "f9bc7ffc-162d-4e59-beef-5ec085d042d0"
     ]
   },
   "lookup": [
