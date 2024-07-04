@@ -14,32 +14,32 @@
     "path": "pcplib/driver.py",
     "content": {
       "structured": {
-        "description": "A class `Car` with properties `make`, `model`, and `fuel_capacity`, and methods `start`, `drive`, and `stop`. The `calculate_efficiency` function calculates the fuel efficiency of a car based on the distance traveled and the amount of fuel used. The code also defines a main function that creates an instance of the `Car` class and prints its properties and methods.",
+        "description": "A class `Car` with properties for make, model, and fuel capacity, as well as methods for starting, driving, and stopping the car. The `calculate_efficiency` function calculates the fuel efficiency of the car based on the distance traveled and the amount of fuel used. The code also includes a main function that creates an instance of the `Car` class and uses its methods to drive 150 kilometers and calculate the fuel efficiency.",
         "items": [
           {
-            "id": "5ab71b52-0f9b-0ea8-7244-3224ddca8eee",
+            "id": "fce0ec32-c767-499f-1a46-7649284b2408",
             "ancestors": [],
-            "description": "Has three methods: `__init__`, `start`, and `drive`. The `__init__` method initializes the object's attributes, while the `start` and `drive` methods allow the car to be started and driven a certain distance respectively, taking into account the current fuel level.",
+            "description": "Has methods for starting, driving and stopping a car. It keeps track of fuel level and displays relevant messages based on fuel level.",
             "attributes": [
               {
                 "name": "make",
                 "type_name": "str",
-                "description": "Initialized to the value \"Make\" during initialization."
+                "description": "Set in the constructor through the parameter `make`. It represents the brand or make of the car."
               },
               {
                 "name": "model",
-                "type_name": "str",
-                "description": "Initialized to a string value representing the car's model name at the time \nof object creation."
+                "type_name": "String",
+                "description": "A unique identifier for the car's model."
               },
               {
                 "name": "fuel_capacity",
                 "type_name": "int",
-                "description": "Used to store the maximum amount of fuel that can be carried by the vehicle."
+                "description": "0 by default, representing the maximum amount of fuel a car can hold."
               },
               {
                 "name": "fuel_level",
                 "type_name": "int",
-                "description": "0 by default, representing the current amount of fuel in the vehicle's tank."
+                "description": "0 by default, representing the current amount of fuel available for driving."
               }
             ],
             "name": "Car",
@@ -55,26 +55,26 @@
             "docLength": null
           },
           {
-            "id": "29786b68-ef7d-b8bc-5843-6c46e4448645",
+            "id": "8c54a1f9-9472-a6b7-0f42-35efeb50f5a3",
             "ancestors": [
-              "5ab71b52-0f9b-0ea8-7244-3224ddca8eee"
+              "fce0ec32-c767-499f-1a46-7649284b2408"
             ],
-            "description": "Sets instance variables \"make\", \"model\", and \"fuel_capacity\" for an object of class \"Car\". Initializing these variables to their respective values, the fuel level is set to 0.",
+            "description": "Sets the attributes of a `Car` object: `make`, `model`, and `fuel_capacity`.",
             "params": [
               {
                 "name": "make",
                 "type_name": "str",
-                "description": "Assigned to the instance attribute `make`."
+                "description": "Set to a specific value representing the car's make, such as Toyota or Honda."
               },
               {
                 "name": "model",
                 "type_name": "str",
-                "description": "Assigned the value of `model`."
+                "description": "Assigned to the instance variable `model`."
               },
               {
                 "name": "fuel_capacity",
                 "type_name": "int",
-                "description": "Used to set the fuel capacity of the vehicle."
+                "description": "Used to represent the fuel capacity of the vehicle."
               }
             ],
             "returns": null,
@@ -91,15 +91,15 @@
             "docLength": null
           },
           {
-            "id": "9775259a-1314-2996-7645-d549cf2f712b",
+            "id": "4cded344-9461-8caf-544f-c9506a5f5963",
             "ancestors": [
-              "5ab71b52-0f9b-0ea8-7244-3224ddca8eee"
+              "fce0ec32-c767-499f-1a46-7649284b2408"
             ],
-            "description": "Determines whether a `Car` can start based on its fuel level, and returns a message indicating if it can start or not to add fuel.",
+            "description": "Determines if the car can be started based on its fuel level and returns a message accordingly. If the fuel level is above zero, it returns a message indicating that the car has started. Otherwise, it returns a message instructing the user to add fuel.",
             "params": [],
             "returns": {
               "type_name": "str",
-              "description": "\"Can not start.Add fuel\"."
+              "description": "`{\"{self.make} {self.model} started.\"}` when the fuel level is greater than zero, and a value of `“Cannot start. Add fuel.”` otherwise."
             },
             "name": "start",
             "location": {
@@ -114,21 +114,21 @@
             "docLength": null
           },
           {
-            "id": "97283163-3602-66a8-ae4d-9860eb44da47",
+            "id": "80571ef4-929d-d5b0-db4a-70d79a6bafa1",
             "ancestors": [
-              "5ab71b52-0f9b-0ea8-7244-3224ddca8eee"
+              "fce0ec32-c767-499f-1a46-7649284b2408"
             ],
-            "description": "Determines if a car can drive a certain distance based on its current fuel level, and if so, subtracts the required amount of fuel from the car's total fuel capacity before returning a message indicating the successful drive distance. If there is not enough fuel, it returns a message stating that the car cannot drive that far.",
+            "description": "Calculates how much fuel is needed to drive a certain distance based on the car's current fuel level and drives the distance if there is enough fuel, otherwise it returns an error message.",
             "params": [
               {
                 "name": "distance",
                 "type_name": "int",
-                "description": "The distance to be driven by the vehicle in kilometers."
+                "description": "Representing the distance to be driven by the vehicle."
               }
             ],
             "returns": {
               "type_name": "str",
-              "description": "A message indicating whether the car can drive a certain distance based on its fuel level."
+              "description": "A message indicating whether the car can drive a given distance or not"
             },
             "name": "drive",
             "location": {
@@ -143,24 +143,24 @@
             "docLength": null
           },
           {
-            "id": "b05399a5-fb55-0cbf-8945-2f090e2594bf",
+            "id": "6540d5fc-35a0-4b8b-a947-52fb64355459",
             "ancestors": [],
-            "description": "Calculates the fuel efficiency of a vehicle based on the distance traveled and the amount of fuel used.",
+            "description": "Calculates the fuel efficiency of a vehicle based on the distance traveled and the amount of fuel used, returning the result as a string with the fuel efficiency expressed in kilometers per liter.",
             "params": [
               {
                 "name": "distance",
                 "type_name": "int",
-                "description": "Representing the distance traveled by a vehicle."
+                "description": "Representing the distance traveled by the vehicle."
               },
               {
                 "name": "fuel_used",
-                "type_name": "double",
-                "description": "Representing the amount of fuel consumed by a vehicle during a given distance traveled, measured in liters."
+                "type_name": "float",
+                "description": "Used to calculate the fuel efficiency of a vehicle based on the distance traveled and the amount of fuel consumed."
               }
             ],
             "returns": {
-              "type_name": "String",
-              "description": "\"Fuel efficiency: x km/liter\" where x is the calculated efficiency ratio between distance and fuel used."
+              "type_name": "str",
+              "description": "A string representing the fuel efficiency in km/liter format."
             },
             "name": "calculate_efficiency",
             "location": {

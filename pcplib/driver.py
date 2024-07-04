@@ -1,31 +1,27 @@
 class Car:
     """
-    Has three methods: `__init__`, `start`, and `drive`. The `__init__` method
-    initializes the object's attributes, while the `start` and `drive` methods
-    allow the car to be started and driven a certain distance respectively, taking
-    into account the current fuel level.
+    Has methods for starting, driving and stopping a car. It keeps track of fuel
+    level and displays relevant messages based on fuel level.
 
     Attributes:
-        make (str): Initialized to the value "Make" during initialization.
-        model (str): Initialized to a string value representing the car's model
-            name at the time
-            of object creation.
-        fuel_capacity (int): Used to store the maximum amount of fuel that can be
-            carried by the vehicle.
+        make (str): Set in the constructor through the parameter `make`. It
+            represents the brand or make of the car.
+        model (String): A unique identifier for the car's model.
+        fuel_capacity (int): 0 by default, representing the maximum amount of fuel
+            a car can hold.
         fuel_level (int): 0 by default, representing the current amount of fuel
-            in the vehicle's tank.
+            available for driving.
 
     """
     def __init__(self, make, model, fuel_capacity):
         """
-        Sets instance variables "make", "model", and "fuel_capacity" for an object
-        of class "Car". Initializing these variables to their respective values,
-        the fuel level is set to 0.
+        Sets the attributes of a `Car` object: `make`, `model`, and `fuel_capacity`.
 
         Args:
-            make (str): Assigned to the instance attribute `make`.
-            model (str): Assigned the value of `model`.
-            fuel_capacity (int): Used to set the fuel capacity of the vehicle.
+            make (str): Set to a specific value representing the car's make, such
+                as Toyota or Honda.
+            model (str): Assigned to the instance variable `model`.
+            fuel_capacity (int): Used to represent the fuel capacity of the vehicle.
 
         """
         self.make = make
@@ -35,11 +31,14 @@ class Car:
     
     def start(self):
         """
-        Determines whether a `Car` can start based on its fuel level, and returns
-        a message indicating if it can start or not to add fuel.
+        Determines if the car can be started based on its fuel level and returns
+        a message accordingly. If the fuel level is above zero, it returns a message
+        indicating that the car has started. Otherwise, it returns a message
+        instructing the user to add fuel.
 
         Returns:
-            str: "Can not start.Add fuel".
+            str: `{"{self.make} {self.model} started."}` when the fuel level is
+            greater than zero, and a value of `“Cannot start. Add fuel.”` otherwise.
 
         """
         if self.fuel_level > 0:
@@ -49,18 +48,16 @@ class Car:
 
     def drive(self, distance):
         """
-        Determines if a car can drive a certain distance based on its current fuel
-        level, and if so, subtracts the required amount of fuel from the car's
-        total fuel capacity before returning a message indicating the successful
-        drive distance. If there is not enough fuel, it returns a message stating
-        that the car cannot drive that far.
+        Calculates how much fuel is needed to drive a certain distance based on
+        the car's current fuel level and drives the distance if there is enough
+        fuel, otherwise it returns an error message.
 
         Args:
-            distance (int): The distance to be driven by the vehicle in kilometers.
+            distance (int): Representing the distance to be driven by the vehicle.
 
         Returns:
-            str: A message indicating whether the car can drive a certain distance
-            based on its fuel level.
+            str: A message indicating whether the car can drive a given distance
+            or not
 
         """
         if self.fuel_level > 0:
@@ -79,16 +76,16 @@ class Car:
 def calculate_efficiency(distance, fuel_used):
     """
     Calculates the fuel efficiency of a vehicle based on the distance traveled and
-    the amount of fuel used.
+    the amount of fuel used, returning the result as a string with the fuel
+    efficiency expressed in kilometers per liter.
 
     Args:
-        distance (int): Representing the distance traveled by a vehicle.
-        fuel_used (double): Representing the amount of fuel consumed by a vehicle
-            during a given distance traveled, measured in liters.
+        distance (int): Representing the distance traveled by the vehicle.
+        fuel_used (float): Used to calculate the fuel efficiency of a vehicle based
+            on the distance traveled and the amount of fuel consumed.
 
     Returns:
-        String: "Fuel efficiency: x km/liter" where x is the calculated efficiency
-        ratio between distance and fuel used.
+        str: A string representing the fuel efficiency in km/liter format.
 
     """
     efficiency = distance / fuel_used
