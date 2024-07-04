@@ -1,7 +1,6 @@
 # Copyright Genome Research Ltd 2014
 # Author gmpc@sanger.ac.uk
 # This program is released under the GNU Public License V2 or later (GPLV2+)
-
 from mpi4py import MPI
 import os
 import random
