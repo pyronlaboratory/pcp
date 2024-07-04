@@ -9,6 +9,7 @@ import readdir
 import time
 import safestat
 from collections import deque
+
 class ParallelWalk():
     """This class implements a parallel directory walking algorithm described 
     by LaFon, Misra and Bringhurst
