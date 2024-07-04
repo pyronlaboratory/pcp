@@ -69,6 +69,19 @@ class ParallelWalk():
 
 """
     def __init__(self, comm, results=None):
+        """
+        Initializes various instance variables, including rank, workers, next
+        worker, color, token, first worker, work request, and items, as well as
+        results parameter passed to the constructor.
+
+        Args:
+            comm (Dup): Used to store the communication object for the worker.
+            results (object): Initialized to none by default. It represents the
+                results of the task that this class
+                represents, which can be used later to retrieve the outcome of the
+                task.
+
+        """
         self.comm = comm.Dup()
         self.rank = self.comm.Get_rank()
         self.workers = self.comm.size

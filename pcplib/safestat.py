@@ -6,8 +6,19 @@ import os
 import errno
 
 def safestat(filename):
-    """lstat sometimes get Interrupted system calls; wrap it up so we can
-    retry"""
+    """
+    Attempts to retrieve file metadata using the `os.lstat()` method, and returns
+    the result if successful, or raises an exception if there is an error.
+
+    Args:
+        filename (str): Used to represent the name of the file for which the file
+            status is being checked.
+
+    Returns:
+        osStatData: A tuple containing information about the file or directory
+        such as its size, permissions, and access time.
+
+    """
     while True:
         try:
             statdata = os.lstat(filename)

@@ -7,9 +7,26 @@ import stat
 import safestat
 
 def fastwalk (sourcedir, onerror=None, topdown=True):
-    """Improved version of os.walk: generates a tuple of (sourcedir,[dirs],
-    [files]). This version tries to use readdir to avoid expensive stat
-    operations on lustre."""
+    """
+    Iterates through subdirectories and files within a given source directory,
+    recursively calling itself for each directory until all files and directories
+    are processed. It returns an iterator over the source directory, its subdirectories,
+    and the files within those subdirectories.
+
+    Args:
+        sourcedir (ospathPathlike): Used to specify the directory to walk through,
+            recursively listing its contents.
+        onerror (OptionalCallable): Used to handle errors that may occur during
+            the traversal of the directory tree.
+        topdown (bool): Used to control the recursion depth of the function. When
+            set to `True`, the function recursively traverses directories; when
+            set to `False`, it only lists the top-level files in the directory.
+
+    Yields:
+        tuple: Composed of three elements: the source directory, a list of
+        directories, and a list of files.
+
+    """
     
     dirlist = []
     filelist = []

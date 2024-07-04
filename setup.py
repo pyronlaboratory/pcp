@@ -17,9 +17,15 @@ VERSION_PY = """
 __version__ = '%s'
 """
 def update_version():
-    """Grab the version number out of git. If we are not in
-    git, set if from _version.py which is generated as part
-    of the source release process. (setup.py dsist).
+    """
+    Updates the version number in a Python project by checking if it's a Git
+    repository, running `git describe` command if it is, or checking the version
+    number from distribution files if not. It then prints the updated version
+    number and returns it.
+
+    Returns:
+        str: The current version of the software.
+
     """
 
     ver = "UNKNOWN"
@@ -55,8 +61,14 @@ def update_version():
     return (ver)
 
 def build_liblustre():
-    """See if we have liblustreapi.so. If we do not have one,
-    generate one from liblustreapi.a"""
+    """
+    Checks for the presence of the `liblustreapi` shared or static library on the
+    system, and copies it to the `pcplib` directory if not found.
+
+    Returns:
+        void: Not captured or defined.
+
+    """
 
     # See if we have a .so already installed in the system.
     liblocation = ctypes.util.find_library("lustreapi")
@@ -113,10 +125,15 @@ libary location:
 """
 
 def convert_liblustre(lib_location):
-    """Convert liblustre.a to .so
-    On linux amd64 we can do:
-    ar -x liblustreapi.a ; gcc -shared *.o -o liblustreapi.so
-    """ 
+    """
+    1) extracts the liblustreapi.a library, 2) compiles it into a shared library
+    (.so), and 3) loads the resulting library into memory using ctypes.
+
+    Args:
+        lib_location (str): Used to specify the location of the `liblustreapi.a`
+            library file.
+
+    """
     
     liblustre=os.path.join(lib_location,"liblustreapi.a")
     print "Converting liblustreapi.a to liblustreapi.so"
@@ -148,7 +165,16 @@ def convert_liblustre(lib_location):
 
 
 class mybuild_py(build):
+    """
+    Performs two functions: calling `build_liblustre()` and delegating to `run()`.
+
+    """
     def run(self):
+        """
+        Of `mybuild_py` class invokes the `build.run()` method, passing `self` as
+        argument, to execute the build process.
+
+        """
         build_liblustre()
         build.run(self)
         
