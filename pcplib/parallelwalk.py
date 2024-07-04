@@ -80,7 +80,6 @@ class ParallelWalk():
         self.items = deque()
         self.results = results
         self.finished = False
-
     
     def ProcessDir(self, directoryname):
         """This method is a stub called for each directory the walker 
