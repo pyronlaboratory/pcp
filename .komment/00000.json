@@ -636,112 +636,36 @@
     "path": "pcplib/parallelwalk.py",
     "content": {
       "structured": {
-        "description": "A class `ParallelWalk` that implements a parallel directory walking algorithm for MPI processes. The class expects an MPI communicator as an argument and has various methods to execute the walk, gather results, and terminate the process. The code uses the `mpi4py` library for MPI operations and the `readdir` function from the `os` module for reading directory contents. The summary highlights the key functionality of the class, including the execution of a parallel walk, gathering of results, and termination of the process through an MPI communicator.",
+        "description": "A class `ParallelWalk` that implements a parallel directory walking algorithm for MPI-based distributed computing environments. The class takes an MPI communicator as an argument and provides methods for processing files and directories encountered during the walk. The `Execute` method starts the walker, which gathers summary data from other ranks using the `gatherResults` method and then exits. The code uses MPI4py and os packages.",
         "items": [
           {
-            "id": "216624a3-fa22-ecb8-3e4c-aee5ef6f529f",
-            "ancestors": [],
-            "description": "Manages communication and data processing between processes in a parallel environment. It has methods for sending and receiving data, checking for termination, and gathering results.",
-            "attributes": [
-              {
-                "name": "comm",
-                "type_name": "MPIComm",
-                "description": "Used to represent the MPI communicator object that manages communication between \nprocesses in a parallel walker."
-              },
-              {
-                "name": "rank",
-                "type_name": "int",
-                "description": "0-based indexing of the walker's rank in the MPI communication."
-              },
-              {
-                "name": "workers",
-                "type_name": "int",
-                "description": "Used to store the total number of processes in the MPI communication."
-              },
-              {
-                "name": "others",
-                "type_name": "list",
-                "description": "Used to store a range of process IDs excluding the current rank's ID, which is used for communication purposes."
-              },
-              {
-                "name": "nextworker",
-                "type_name": "int",
-                "description": "1-based index of the next worker to receive a token after the current worker. It is used to track the progress of work distribution among workers in a parallel walk algorithm."
-              },
-              {
-                "name": "colour",
-                "type_name": "str",
-                "description": "Used to track the color of each walker in a parallel processing environment, with values of \"White\" or \"Black\". It is used to determine when a walker should send a shutdown message to its peers."
-              },
-              {
-                "name": "token",
-                "type_name": "str",
-                "description": "Used to keep track of the work token that is passed between processes for efficient \nwork distribution."
-              },
-              {
-                "name": "first",
-                "type_name": "int",
-                "description": "Set to `True` when the walker is the first one to receive a work request from its peers, indicating that it should send out a work request to its neighbors."
-              },
-              {
-                "name": "workrequest",
-                "type_name": "MPIStatus",
-                "description": "Used to track whether a node has requested work or not."
-              },
-              {
-                "name": "items",
-                "type_name": "deque",
-                "description": "Used to store the files or directories encountered during the parallel walk process."
-              },
-              {
-                "name": "results",
-                "type_name": "MPI_Gathered",
-                "description": "Initialized to gather results from other processes when the walker is done with its work."
-              },
-              {
-                "name": "finished",
-                "type_name": "bool",
-                "description": "Used to indicate if the walker has completed its work or not."
-              }
-            ],
-            "name": "ParallelWalk",
-            "location": {
-              "start": 12,
-              "insert": 13,
-              "offset": " ",
-              "indent": 4,
-              "comment": {
-                "start": 12,
-                "end": 69
-              }
-            },
-            "item_type": "class",
-            "length": 177,
-            "docLength": 57
-          },
-          {
-            "id": "0d1f5ce4-cab8-6f84-4444-5cfde997c048",
+            "id": "1d882e73-6b37-a5b5-814f-b7b778a73940",
             "ancestors": [
-              "216624a3-fa22-ecb8-3e4c-aee5ef6f529f"
+              "148427dc-3ddb-43b8-0f42-d6f85d4b0a47"
             ],
-            "description": "Initializes an object of the `ParallelWalk` class, setting its various attributes and behaviors based on input parameters.",
+            "description": "Initializes various instance variables, including rank, workers, next worker, color, token, first worker, work request, and items, as well as results parameter passed to the constructor.",
             "params": [
               {
                 "name": "comm",
                 "type_name": "Dup",
-                "description": "Used to represent a communication object that allows the worker class to communicate with other workers."
+                "description": "Used to store the communication object for the worker."
               },
               {
                 "name": "results",
-                "type_name": "NoneType",
-                "description": "An optional argument that represents the initial results of the worker."
+                "type_name": "object",
+                "description": "Initialized to none by default. It represents the results of the task that this class \nrepresents, which can be used later to retrieve the outcome of the task."
               }
             ],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "comm = MPI.COMM_WORLD\nresults = []\nwalker = ParallelWalk(comm, results)\nwalker.ProcessDir(\"path/to/directory\")\n",
+              "description": "\nIn this example, the end-user creates a `MPI` instance and initializes the `ParallelWalk` class with it. The walker then processes the directory specified by the user using the `ProcessDir()` method. The results of the walk are stored in the `results` list."
+            },
             "name": "__init__",
             "location": {
-              "start": 70,
-              "insert": 71,
+              "start": 71,
+              "insert": 72,
               "offset": " ",
               "indent": 8,
               "comment": null
@@ -749,169 +673,6 @@
             "item_type": "method",
             "length": 13,
             "docLength": null
-          },
-          {
-            "id": "f2170362-ec68-7898-fd4f-3031ceaca8f8",
-            "ancestors": [
-              "216624a3-fa22-ecb8-3e4c-aee5ef6f529f"
-            ],
-            "description": "In the ParallelWalk class manages work requests, items, and tokens among processes in a parallel environment. It receives messages from other processes, checks their tags, and updates internal variables accordingly.",
-            "name": "_CheckforRequests",
-            "location": {
-              "start": 106,
-              "insert": 107,
-              "offset": " ",
-              "indent": 8,
-              "comment": {
-                "start": 106,
-                "end": 109
-              }
-            },
-            "item_type": "method",
-            "length": 37,
-            "docLength": 3
-          },
-          {
-            "id": "7a61b905-adf0-649b-534d-148126577d92",
-            "ancestors": [
-              "216624a3-fa22-ecb8-3e4c-aee5ef6f529f"
-            ],
-            "description": "Pops an item from the class's items list, reads the file or directory at that location, and adds it to the class's items list if it is not a directory, or processes its contents recursively if it is a directory.",
-            "name": "_ProcessNode",
-            "location": {
-              "start": 150,
-              "insert": 151,
-              "offset": " ",
-              "indent": 8,
-              "comment": {
-                "start": 150,
-                "end": 153
-              }
-            },
-            "item_type": "method",
-            "length": 26,
-            "docLength": 3
-          },
-          {
-            "id": "e51e9f96-fc95-f6a5-914e-48c678d2a93e",
-            "ancestors": [
-              "216624a3-fa22-ecb8-3e4c-aee5ef6f529f"
-            ],
-            "description": "Within the ParallelWalk class randomly selects one of the others, sends a message with the tag \"Hungry\" to that target, and sets the work request to True.",
-            "name": "_AskForWork",
-            "location": {
-              "start": 183,
-              "insert": 184,
-              "offset": " ",
-              "indent": 8,
-              "comment": {
-                "start": 183,
-                "end": 184
-              }
-            },
-            "item_type": "method",
-            "length": 4,
-            "docLength": 1
-          },
-          {
-            "id": "10691084-1d1d-ddbb-e944-9eb702b714e1",
-            "ancestors": [
-              "216624a3-fa22-ecb8-3e4c-aee5ef6f529f"
-            ],
-            "description": "In the ParallelWalk class checks for termination conditions, including when all workers have finished and when the rank is zero and the colour is white. It also updates the token and sends it to the next worker if necessary.",
-            "name": "_CheckForTermination",
-            "location": {
-              "start": 189,
-              "insert": 190,
-              "offset": " ",
-              "indent": 8,
-              "comment": {
-                "start": 189,
-                "end": 190
-              }
-            },
-            "item_type": "method",
-            "length": 29,
-            "docLength": 1
-          },
-          {
-            "id": "ec220920-8108-71a4-fd4f-120595cd31d8",
-            "ancestors": [
-              "216624a3-fa22-ecb8-3e4c-aee5ef6f529f"
-            ],
-            "description": "Sends a message to all workers with the tag \"Shutdown\" and the destination id starting from 1, invoking the receiver's `comm.send()` method.",
-            "name": "_sendShutdown",
-            "location": {
-              "start": 224,
-              "insert": 225,
-              "offset": " ",
-              "indent": 8,
-              "comment": {
-                "start": 224,
-                "end": 225
-              }
-            },
-            "item_type": "method",
-            "length": 3,
-            "docLength": 1
-          },
-          {
-            "id": "75f73c29-3c59-faa9-164f-a8760e189aa3",
-            "ancestors": [
-              "216624a3-fa22-ecb8-3e4c-aee5ef6f529f"
-            ],
-            "description": "In the `ParallelWalk` class receives an argument `data` from the parent class's `comm` attribute, and returns the gathered data after applying the `gather` method to it.",
-            "params": [],
-            "returns": {
-              "type_name": "list",
-              "description": "A gather result from the communication object `comm`."
-            },
-            "name": "gatherResults",
-            "location": {
-              "start": 229,
-              "insert": 230,
-              "offset": " ",
-              "indent": 8,
-              "comment": {
-                "start": 229,
-                "end": 231
-              }
-            },
-            "item_type": "method",
-            "length": 3,
-            "docLength": 2
-          },
-          {
-            "id": "79a97911-c0a7-f587-3e4c-5fadc06c93da",
-            "ancestors": [
-              "216624a3-fa22-ecb8-3e4c-aee5ef6f529f"
-            ],
-            "description": "In the `ParallelWalk` class takes a seed directory and initializes the rank-0 walker with it, while also allowing for multiple seeds to be taken. It then enters an iterative main loop where it checks for requests, processes nodes, and pings the worklist between nodes until termination is reached. Finally, it gathers results and tidies up.",
-            "params": [
-              {
-                "name": "seed",
-                "type_name": "object",
-                "description": "Used to initialize the rank-0 walker with a seed directory."
-              }
-            ],
-            "returns": {
-              "type_name": "object",
-              "description": "Returned by its `gatherResults()` method after it has completed its execution."
-            },
-            "name": "Execute",
-            "location": {
-              "start": 238,
-              "insert": 239,
-              "offset": " ",
-              "indent": 8,
-              "comment": {
-                "start": 238,
-                "end": 244
-              }
-            },
-            "item_type": "method",
-            "length": 23,
-            "docLength": 6
           }
         ]
       }

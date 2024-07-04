@@ -1,6 +1,7 @@
 # Copyright Genome Research Ltd 2014
 # Author gmpc@sanger.ac.uk
 # This program is released under the GNU Public License V2 or later (GPLV2+)
+
 from mpi4py import MPI
 import os
 import random
@@ -10,51 +11,75 @@ import time
 import safestat
 from collections import deque
 class ParallelWalk():
-    """
-    Manages communication and data processing between processes in a parallel
-    environment. It has methods for sending and receiving data, checking for
-    termination, and gathering results.
+    """This class implements a parallel directory walking algorithm described 
+    by LaFon, Misra and Bringhurst
+    http://conferences.computer.org/sc/2012/papers/1000a015.pdf
 
-    Attributes:
-        comm (MPIComm): Used to represent the MPI communicator object that manages
-            communication between
-            processes in a parallel walker.
-        rank (int): 0-based indexing of the walker's rank in the MPI communication.
-        workers (int): Used to store the total number of processes in the MPI communication.
-        others (list): Used to store a range of process IDs excluding the current
-            rank's ID, which is used for communication purposes.
-        nextworker (int): 1-based index of the next worker to receive a token after
-            the current worker. It is used to track the progress of work distribution
-            among workers in a parallel walk algorithm.
-        colour (str): Used to track the color of each walker in a parallel processing
-            environment, with values of "White" or "Black". It is used to determine
-            when a walker should send a shutdown message to its peers.
-        token (str): Used to keep track of the work token that is passed between
-            processes for efficient
-            work distribution.
-        first (int): Set to `True` when the walker is the first one to receive a
-            work request from its peers, indicating that it should send out a work
-            request to its neighbors.
-        workrequest (MPIStatus): Used to track whether a node has requested work
-            or not.
-        items (deque): Used to store the files or directories encountered during
-            the parallel walk process.
-        results (MPI_Gathered): Initialized to gather results from other processes
-            when the walker is done with its work.
-        finished (bool): Used to indicate if the walker has completed its work or
-            not.
+    The class expects an MPI communicator as an argument.
+   
+    from lib.parallelwalk import ParallelWalk
+    from mpi4py import MPI
+    comm = MPI.COMM_WORLD
+    walker = ParallelWalk(comm)
 
-    """
+    To start the walker, call the execute() method. MPI rank 0 should pass 
+    in a seed directory. Currently seeds to MPI ranks other than rank 0 will 
+    be ignored.
+    
+    if rank == 0:
+       seed = "/my/dir"
+    else:
+       seed = None
+    results = walker.execute(seed)
+
+    As it stands, the walker will walk the directory tree and then exit. It will
+    return no data and perform no actions on file and directories it encounters.
+
+    The execute method should only be executed once; there is alot of undefined state
+    left in the walker once it has finished crawling.
+
+    In order to customize its behaviour you should subclass ParallelWalk() and extend
+    the ProcessDir() and ProcessFile() methods. These methods are called on every
+    directory and file the walker encounters.
+
+    The amount of work the ProcessDir() and ProcessFile() methods carry out should be
+    as small as possible to ensure efficient work balancing between the workers.
+    Tasks stuck in these functions will not be able to answer work requests from other
+    nodes.
+
+    If you want to return summary data from the walker, use the results
+    attribute. You can set results to a particular datatype by setting the results
+    parameter when you instantiate the class. By default results is None.
+
+    results are gathered and returned as a list by the rank 0
+    walker. The list contains the results from each MPI rank. If you wish to change
+    this behaviour you can extend the gatherResults() method.
+
+    The following example modified the walker to print out the name of each
+    file it encounters and count the total number of files.
+
+    class printfiles(ParallelWalk):
+        def ProcessFile(self, filename)
+            print filename
+            self.results += 1
+         
+    walker  = printfile(comm, results=0)
+    listofresults = walker.Execute()
+
+
+"""
     def __init__(self, comm, results=None):
         """
-        Initializes an object of the `ParallelWalk` class, setting its various
-        attributes and behaviors based on input parameters.
+        Initializes various instance variables, including rank, workers, next
+        worker, color, token, first worker, work request, and items, as well as
+        results parameter passed to the constructor.
 
         Args:
-            comm (Dup): Used to represent a communication object that allows the
-                worker class to communicate with other workers.
-            results (NoneType): An optional argument that represents the initial
-                results of the worker.
+            comm (Dup): Used to store the communication object for the worker.
+            results (object): Initialized to none by default. It represents the
+                results of the task that this class
+                represents, which can be used later to retrieve the outcome of the
+                task.
 
         """
         self.comm = comm.Dup()
@@ -93,11 +118,8 @@ class ParallelWalk():
         pass
 
     def _CheckforRequests(self):
-        """
-        In the ParallelWalk class manages work requests, items, and tokens among
-        processes in a parallel environment. It receives messages from other
-        processes, checks their tags, and updates internal variables accordingly.
-
+        """Listen for incoming communication data from our peers and answer
+        accordigly.
         """
         # tags
         # 0 = work request
@@ -140,12 +162,9 @@ class ParallelWalk():
         return()
 
     def _ProcessNode(self):
-        """
-        Pops an item from the class's items list, reads the file or directory at
-        that location, and adds it to the class's items list if it is not a
-        directory, or processes its contents recursively if it is a directory.
-
-        """
+        """Process a node in the directory tree. If the node is another directory, 
+        enumerate its contents and add it to the list of nodes to be processed in the 
+        future."""
         filename, filetype = self.items.pop()
 
         try:
@@ -176,23 +195,13 @@ class ParallelWalk():
         return()
 
     def _AskForWork(self):
-        """
-        Within the ParallelWalk class randomly selects one of the others, sends a
-        message with the tag "Hungry" to that target, and sets the work request
-        to True.
-
-        """
+        """Send a work request to a random peer."""
         target = random.choice(self.others)
         self.mpirequest = self.comm.isend("Hungry", dest=target, tag=0)
         self.workrequest = True
 
     def _CheckForTermination(self):
-        """
-        In the ParallelWalk class checks for termination conditions, including
-        when all workers have finished and when the rank is zero and the colour
-        is white. It also updates the token and sends it to the next worker if necessary.
-
-        """
+        """Dijkstra distributed termiation algorithm."""
         # single process case is special; we can terminate straight away.
         if self.workers == 1:
             self.finished = True
@@ -227,24 +236,13 @@ class ParallelWalk():
                     self.token = False
 
     def _sendShutdown(self):
-        """
-        Sends a message to all workers with the tag "Shutdown" and the destination
-        id starting from 1, invoking the receiver's `comm.send()` method.
-
-        """
+        """Send shutdown signal to the other ranks."""
         for dest in range(1, self.workers):
             self.comm.send("Shutdown", dest=dest, tag=3)
 
     def gatherResults(self):
-        """
-        In the `ParallelWalk` class receives an argument `data` from the parent
-        class's `comm` attribute, and returns the gathered data after applying the
-        `gather` method to it.
-
-        Returns:
-            list: A gather result from the communication object `comm`.
-
-        """
+        """This method defines how summary data is handled. By default results are 
+        gathered to the rank 0 MPI process."""
         data = self.comm.gather(self.results, root=0)
         return(data)
 
@@ -252,20 +250,11 @@ class ParallelWalk():
         self.comm.Free()
 
     def Execute(self, seed):
-        """
-        In the `ParallelWalk` class takes a seed directory and initializes the
-        rank-0 walker with it, while also allowing for multiple seeds to be taken.
-        It then enters an iterative main loop where it checks for requests, processes
-        nodes, and pings the worklist between nodes until termination is reached.
-        Finally, it gathers results and tidies up.
+        """This method starts the walkers. The rank 0 MPI walker takes a seed parameter,
+        which is the name of the first directory to walk.
 
-        Args:
-            seed (object): Used to initialize the rank-0 walker with a seed directory.
-
-        Returns:
-            object: Returned by its `gatherResults()` method after it has completed
-            its execution.
-
+        The rank 0 walker will return a list containing the results attributes for all of
+        the walkers. This can be used to print out summary statistics etc.
         """
         # Initialize the rank0 walker with the seed directory.
         # TODO: Be able to take multiple seeds
