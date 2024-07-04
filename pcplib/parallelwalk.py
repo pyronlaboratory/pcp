@@ -10,66 +10,8 @@ import readdir
 import time
 import safestat
 from collections import deque
-
 class ParallelWalk():
-    """This class implements a parallel directory walking algorithm described 
-    by LaFon, Misra and Bringhurst
-    http://conferences.computer.org/sc/2012/papers/1000a015.pdf
-
-    The class expects an MPI communicator as an argument.
-   
-    from lib.parallelwalk import ParallelWalk
-    from mpi4py import MPI
-    comm = MPI.COMM_WORLD
-    walker = ParallelWalk(comm)
-
-    To start the walker, call the execute() method. MPI rank 0 should pass 
-    in a seed directory. Currently seeds to MPI ranks other than rank 0 will 
-    be ignored.
-    
-    if rank == 0:
-       seed = "/my/dir"
-    else:
-       seed = None
-    results = walker.execute(seed)
-
-    As it stands, the walker will walk the directory tree and then exit. It will
-    return no data and perform no actions on file and directories it encounters.
-
-    The execute method should only be executed once; there is alot of undefined state
-    left in the walker once it has finished crawling.
-
-    In order to customize its behaviour you should subclass ParallelWalk() and extend
-    the ProcessDir() and ProcessFile() methods. These methods are called on every
-    directory and file the walker encounters.
-
-    The amount of work the ProcessDir() and ProcessFile() methods carry out should be
-    as small as possible to ensure efficient work balancing between the workers.
-    Tasks stuck in these functions will not be able to answer work requests from other
-    nodes.
-
-    If you want to return summary data from the walker, use the results
-    attribute. You can set results to a particular datatype by setting the results
-    parameter when you instantiate the class. By default results is None.
-
-    results are gathered and returned as a list by the rank 0
-    walker. The list contains the results from each MPI rank. If you wish to change
-    this behaviour you can extend the gatherResults() method.
-
-    The following example modified the walker to print out the name of each
-    file it encounters and count the total number of files.
-
-    class printfiles(ParallelWalk):
-        def ProcessFile(self, filename)
-            print filename
-            self.results += 1
-         
-    walker  = printfile(comm, results=0)
-    listofresults = walker.Execute()
-
-
-"""
-    def __init__(self, comm, results=None):
+        def __init__(self, comm, results=None):
         self.comm = comm.Dup()
         self.rank = self.comm.Get_rank()
         self.workers = self.comm.size
