@@ -8,22 +8,23 @@ import safestat
 
 def fastwalk (sourcedir, onerror=None, topdown=True):
     """
-    Iterates through subdirectories and files within a given source directory,
-    recursively calling itself for each directory until all files and directories
-    are processed. It returns an iterator over the source directory, its subdirectories,
-    and the files within those subdirectories.
+    Traverses a directory tree and yields a tuple of (source directory, subdirectory
+    list, file list) for each directory it encounters. It also recursively traverses
+    subdirectories and yields additional tuples for each directory found.
 
     Args:
-        sourcedir (ospathPathlike): Used to specify the directory to walk through,
-            recursively listing its contents.
-        onerror (OptionalCallable): Used to handle errors that may occur during
-            the traversal of the directory tree.
-        topdown (bool): Used to control the recursion depth of the function. When
-            set to `True`, the function recursively traverses directories; when
-            set to `False`, it only lists the top-level files in the directory.
+        sourcedir (osPathLike|str): Used to specify the starting directory for the
+            recursive walk.
+        onerror (Optional[Callable]): Used to handle errors that occur during the
+            recursive traversal of the directory tree. It takes an exception object
+            as input and can be used to perform custom error handling.
+        topdown (bool): Used to indicate whether the walk should be performed
+            recursively or not. If set to True, the function will perform a recursive
+            walk of the directory tree; if set to False, it will only return the
+            direct children of the starting directory.
 
     Yields:
-        tuple: Composed of three elements: the source directory, a list of
+        Tuple[str,List[str],List[str]]: A source directory path, a list of
         directories, and a list of files.
 
     """

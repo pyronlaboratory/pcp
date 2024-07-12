@@ -18,13 +18,11 @@ __version__ = '%s'
 """
 def update_version():
     """
-    Updates the version number in a Python project by checking if it's a Git
-    repository, running `git describe` command if it is, or checking the version
-    number from distribution files if not. It then prints the updated version
-    number and returns it.
+    Determines and sets the version number of a Python project based on the contents
+    of a `.git` directory or by reading the version number from a distribution file.
 
     Returns:
-        str: The current version of the software.
+        str: The updated version number of the software.
 
     """
 
@@ -62,11 +60,12 @@ def update_version():
 
 def build_liblustre():
     """
-    Checks for the presence of the `liblustreapi` shared or static library on the
-    system, and copies it to the `pcplib` directory if not found.
+    Searches for the Lustre API shared or static library on the system and copies
+    it to the 'pcplib' directory if found, building the pcp client without Lustre
+    features otherwise.
 
     Returns:
-        void: Not captured or defined.
+        void: The outcome of searching for the liblustreapi C library.
 
     """
 
@@ -126,11 +125,12 @@ libary location:
 
 def convert_liblustre(lib_location):
     """
-    1) extracts the liblustreapi.a library, 2) compiles it into a shared library
-    (.so), and 3) loads the resulting library into memory using ctypes.
+    Converts the `liblustreapi.a` library to a shared object file (`liblustreapi.so`)
+    and then loads it into memory using the `ctypes` module, making the
+    `llapi_file_create` function available for use.
 
     Args:
-        lib_location (str): Used to specify the location of the `liblustreapi.a`
+        lib_location (str|Path): Used to specify the location of the liblustre
             library file.
 
     """
@@ -166,13 +166,14 @@ def convert_liblustre(lib_location):
 
 class mybuild_py(build):
     """
-    Performs two functions: calling `build_liblustre()` and delegating to `run()`.
+    Runs two builds: one for a library (`liblustre`) and another for the parent
+    class (`build`).
 
     """
     def run(self):
         """
-        Of `mybuild_py` class invokes the `build.run()` method, passing `self` as
-        argument, to execute the build process.
+        Executes two functions: building the LibLustre library and running the
+        `build.run()` method as a child process.
 
         """
         build_liblustre()

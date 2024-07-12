@@ -10,10 +10,11 @@ This module provides python bindings for statfs.
 # C data structures
 class _fsid(ctypes.Structure):
     """
-    Defines a structure with two integer members, `val`.
+    Defines a structure with two `ctypes.c_int` members, which likely represent a
+    file system identifier for use in low-level system interactions.
 
     Attributes:
-        _fields_ (ctypesc_int): 2-element array of integers.
+        _fields_ (ctypesStructure): 2-element list of `ctypes.c_int`.
 
     """
     _fields_ = [
@@ -22,12 +23,12 @@ class _fsid(ctypes.Structure):
 
 class _struct_statfs(ctypes.Structure):
     """
-    Defines a structure for storing file system statistics, including information
-    about files and blocks.
+    Defines a structure for representing file system information, including type,
+    block size, blocks, available blocks, free space, files, and various flags.
 
     Attributes:
-        _fields_ (ctypesc_long): A list of field names for the struct statfs,
-            including f_type, f_bsize, f_blocks, and more.
+        _fields_ (ctypesStructure): A list of fields that make up the `struct
+            statfs`. The list includes field names, data types, and sizes.
 
     """
     _fields_ = [
@@ -54,16 +55,16 @@ _statfs.argtypes = [ctypes.c_char_p, _struct_statfs_p]
 
 def fstype(path):
     """
-    1/ Calls the `_struct_statfs` function to retrieve file system information.
-    2/ Passes the path to be checked to the `_statfs` function.
-    3/ Returns the file type based on the information retrieved.
+    Calculates the file system type of a path based on the struct statfs data
+    returned by `_statfs`.
 
     Args:
-        path (str): Used to specify the path to be statfs-ed.
+        path (ctypesbyrefobject): Required to pass the path of a file system to
+            be analyzed for its type.
 
     Returns:
-        ctypesbyrefdataf_type: An instance of a struct representing file system
-        information, specifically the file type (e.g., regular file, directory, etc.).
+        ctypesc_ushort: A 16-bit unsigned integer that represents the file system
+        type of a given path.
 
     """
 

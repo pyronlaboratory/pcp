@@ -42,13 +42,11 @@ lustre = ctypes.CDLL(liblocation, use_errno=True)
 # ctype boilerplate for C data structures and functions
 class lov_user_ost_data_v1(ctypes.Structure):
     """
-    Defines a structure with fields for object ID, group ID, generation number,
-    and index value, likely used to store user data for OST (Operating System
-    Technology) functionality.
+    Represents user object data, including ID, group ID, generation number, and
+    index for an unspecified purpose.
 
     Attributes:
-        _fields_ (ctypesStructure): A list of field names and data types for the
-            class, including "l_object_id", "l_object_gr", "l_ost_gen", and "l_ost_idx".
+        _fields_ (ctypesStructure): An array of field names for the structure.
 
     """
     _fields_ = [
@@ -59,13 +57,13 @@ class lov_user_ost_data_v1(ctypes.Structure):
         ]
 class lov_user_md_v1(ctypes.Structure):
     """
-    Defines a structure for storing metadata related to user objects, including
-    magic number, pattern, object ID, group ID, stripe size, count, and offset.
-    It also provides an array of pointers to `lov_user_ost_data_v1` structures.
+    Defines a struct for storing metadata related to user data, including magic
+    number, pattern ID, object ID, and other information necessary for efficient
+    storage and retrieval.
 
     Attributes:
-        _fields_ (ctypesc_ulonglong): Defined as a list of field names and data
-            types, including lmm_magic, lmm_pattern, etc.
+        _fields_ (ctypesStructure): A list of field names for the structure,
+            including "lmm_magic", "lmm_pattern", "lmm_object_id", and others.
 
     """
     _fields_ = [
@@ -86,33 +84,29 @@ lustre.llapi_file_open.argtypes = [ctypes.c_char_p, ctypes.c_int,
 
 class stripeObj:
     """
-    Represents a stripe of data with various attributes, including count, size,
-    and offset. It also includes a list of object IDs for each stripe. The `isstriped`
-    method checks if the stripe is non-empty based on its `stripecount`, `-1`
-    indicating an empty stripe.
+    Manages stripe-related data and provides methods to access or manipulate that
+    data, including counting the number of stripes, calculating their size, and
+    checking if a given element is striped.
 
     Attributes:
-        lovdata (lov_user_md_v1): Not defined explicitly.
-        stripecount (int): Initialized to -1 upon object initialization. It
-            represents the number of stripes that an
-            object has.
-        stripesize (int): 0 by default, indicating that the stripe size is unknown
-            or uninitialized.
-        stripeoffset (int): Used to store a count of the number of stripes offset
-            from the starting point of the
-            object. It helps determine if an object is striped or not.
-        ostobjects (list): A container for storing object index-object id pairs.
+        lovdata (lov_user_md_v1): Used to store user metadata for stripes.
+        stripecount (int): 1-based, indicating the number of stripes found in the
+            object.
+        stripesize (int): 0 by default, representing the size of a stripe segment.
+        stripeoffset (int): Used to represent the offset of a stripe within a
+            larger dataset.
+        ostobjects (List[ObjectStriped]): A list of objects that are associated
+            with the current stripe.
 
     """
     def __str__(self):
         """
-        For the `stripeObj` class returns a string representing the stripe count,
-        size, and offset, along with information about the objects contained within
-        the stripe.
+        Generates a string representation of an object by concatenating various
+        attributes, including Stripe Count, Size, Offset, and information about OstObjects.
 
         Returns:
-            str: A string that contains information about Stripe objects including
-            their count, size, and offset, as well as the index and ID of each object.
+            str: A string containing various information about the object's stripes,
+            offsets, and objects.
 
         """
         string = "Stripe Count: %i Stripe Size: %i Stripe Offset: %i\n" \
@@ -124,8 +118,8 @@ class stripeObj:
         
     def __init__(self):
         """
-        Initializes an instance of the `stripeObj` class, setting its member
-        variables to default values.
+        Sets up instance variables for lovdata, stripecount, stripesize, stripeoffset,
+        and ostobjects.
 
         """
         self.lovdata = lov_user_md_v1()
@@ -138,12 +132,11 @@ class stripeObj:
 
     def isstriped(self):
         """
-        Determines if an instance of `stripeObj` has a stripe pattern based on the
-        value of `self.stripecount`. If the count is greater than 1 or negative,
-        the function returns `True`, otherwise it returns `False`.
+        Determines if the number of stripes in an object is greater than 1 or equal
+        to -1, returning True if so and False otherwise.
 
         Returns:
-            Boolean: True if the stripecount is greater than 1 or equal to -1 and
+            bool: True when the stripe count is greater than 1 or equal to -1, and
             False otherwise.
 
         """
@@ -155,15 +148,16 @@ class stripeObj:
     
 def getstripe(filename):
     """
-    Retrieves stripe information from a file and stores it in an instance of the
-    `stripeObj` class, handling errors and skipping empty or corrupted files.
+    Retrieves the stripe information for a file and populates an instance of the
+    `stripeobj` class with the retrieved data.
 
     Args:
-        filename (str): The file name to read the stripes from.
+        filename (str): Used to specify the path to a file for which the stripes
+            are to be extracted.
 
     Returns:
-        StripeObject: A wrapper class for Lustre stripes. The object contains
-        information such as stripe count, size, and offset.
+        stripeobj: A class that contains information about a file's stripes,
+        including the count, size, and offset.
 
     """
     stripeobj = stripeObj()
@@ -199,21 +193,24 @@ def getstripe(filename):
 def setstripe(filename, stripeobj=None, stripesize=0, stripeoffset=-1,
               stripecount=1):
     """
-    Sets stripes on a file, captures error messages from Lustre API, and returns
-    the file descriptor or raises an IOError if there is an issue.
+    Modifies the stripes of a file using the Lustre library, taking into account
+    various parameters such as filename, stripe object, size, offset, and count.
 
     Args:
-        filename (str): Used to represent the name of the file to be stripped.
-        stripeobj (llusterevent): Passed to the `llusteapi_file_open` function,
-            which represents a file object with stripes. It contains information
-            about the stripes, such as size, offset, and count.
+        filename (str): Used to specify the name of the file to be stripped with
+            Lustre.
+        stripeobj (object|NoneType): Used to store the stripe object information
+            for the file being created or modified, including its size, offset,
+            and count.
         stripesize (int): Used to specify the size of each stripe in bytes.
-        stripeoffset (int): Used to specify the offset of the stripe in the file.
-        stripecount (int): 1 by default, indicating that one stripe will be created
-            for each file.
+        stripeoffset (int|1): Used to specify the starting offset of the stripes
+            in the file.
+        stripecount (int): 1 by default, indicating that only one stripe will be
+            created for the given file.
 
     Returns:
-        0valued: 0, indicating successful execution and no error.
+        int: 0 when the file is opened successfully, and a negative error code
+        when there is an error.
 
     """
     flags = os.O_CREAT
@@ -247,25 +244,23 @@ def setstripe(filename, stripeobj=None, stripesize=0, stripeoffset=-1,
 
 class captureStderr():
     """
-    Captures stderr output from a process and provides a way to read the captured
-    data. It creates a pipe for reading and writing, duplicates the stderr stream,
-    and reads data from the pipe using `os.read()`.
+    Captures the standard error output of a process and returns it as a string,
+    allowing the contents to be read line by line.
 
     Attributes:
-        pipeout (int): Used to represent the output pipe created by os.pipe() for
-            capturing stderr streams.
-        pipein (int): Used to indicate the file descriptor for the reading end of
-            a pipe.
-        oldstderr (int): Used for restoring the original stderr file descriptor
-            before capturing stderr output.
-        contents (str): The contents of the standard error output stream read from
-            the pipe, which can be retrieved by calling the `readData()` method.
+        pipeout (int): Used to read data from a pipe.
+        pipein (int|str): A file descriptor that points to the reading end of a
+            pipe used for capturing stderr output.
+        oldstderr (int|str): Used to restore the original stderr file descriptor
+            after capturing the stderr output.
+        contents (str): A buffer for storing the captured stderr content during
+            the process execution.
 
     """
     def __init__(self):
         """
-        Creates a pipe and redirects standard error to it, then sets a variable
-        `contents` to a string value.
+        Creates two pipes, one for input and one for output, and redirects stderr
+        to the output pipe using dup2.
 
         """
         self.pipeout, self.pipein = os.pipe()
@@ -278,8 +273,8 @@ class captureStderr():
 
     def readData(self):
         """
-        Reads data from a pipe until it reaches an end-of-file, storing the contents
-        in a class variable `contents`.
+        Reads data from the pipe output by os.read(self.pipeout, 1024) until
+        self.checkData() is False.
 
         """
         while self.checkData():
@@ -287,10 +282,12 @@ class captureStderr():
             
     def checkData(self):
         """
-        Evaluates whether the pipeout variable is present or not.
+        Class checks if any data is available in the pipeout variable by calling
+        the `select` function and returns a boolean value indicating whether any
+        data is present.
 
         Returns:
-            bool: 1 if there is data available to be read from the pipe, and 0 otherwise.
+            bool: 1 if there are any items in the list `self.pipeout`, and 0 otherwise.
 
         """
         r, _, _ = select.select([self.pipeout], [], [], 0)
@@ -298,9 +295,7 @@ class captureStderr():
 
     def stopCapture(self):
         """
-        In the `captureStderr` class closes the pipe output and input and duplicates
-        the standard error stream to the new file descriptor 2, effectively stopping
-        the capture of stderr.
+        Closes pipeout and oldstderr, duplicating stderr to 2 for further use
 
         """
         os.dup2(self.oldstderr, 2)

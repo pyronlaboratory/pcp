@@ -7,16 +7,15 @@ import errno
 
 def safestat(filename):
     """
-    Attempts to retrieve file metadata using the `os.lstat()` method, and returns
-    the result if successful, or raises an exception if there is an error.
+    Tries to stat a file repeatedly until it succeeds, returning the last successful
+    stat data if successful.
 
     Args:
-        filename (str): Used to represent the name of the file for which the file
-            status is being checked.
+        filename (str): Passed as the address of a filename to check for modification.
 
     Returns:
-        osStatData: A tuple containing information about the file or directory
-        such as its size, permissions, and access time.
+        StatData|None: 16-bit integer containing file metadata or None if an error
+        occurs during stat operation.
 
     """
     while True:

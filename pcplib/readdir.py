@@ -14,13 +14,13 @@ _clib = ctypes.CDLL("libc.so.6", use_errno=True)
 
 class _cdirent(ctypes.Structure):
     """
-    Defines a structure for representing directory entry points, containing fields
-    for inode number, offset, record length, type, and name.
+    Defines a structure for representing directory entries, including file name,
+    inode number, offset within the file, and file type and length.
 
     Attributes:
-        _fields_ (ctypesPyStructSequence): Defined as a list of tuples, where each
-            tuple contains the name of a field followed by its data type. The
-            fields are: `ino_t`, `off_t`, `d_reclen`, `d_type`, and `d_name`.
+        _fields_ (ctypesStructure): A list of fields defined for the structure,
+            including field names and data types: `["ino_t", "off_t", "d_reclen",
+            "d_type", "d_name"]`.
 
     """
     _fields_ = [
@@ -49,24 +49,27 @@ _readdir.restype = _dirent_p
 
 class dirent(ctypes.Structure):
     """
-    Is an extension of the `ctypes.Structure` class and provides attributes for
-    representing different types of directory entries. It includes methods for
-    setting and retrieving attributes, such as file type, name, and size.
+    Defines an object that represents a directory entry, allowing attributes to
+    be accessed and modified through its methods.
 
     Attributes:
-        DT_UNKNOWN (int): 0.
-        DT_FIFO (1bit): 0 or 1, indicating whether the directory entry is a FIFO
-            (file-if-one-doesn't-exist).
-        DT_CHR (2bit): 0 or 1 indicating whether the directory entry is a character
+        DT_UNKNOWN (int|str): 0 by default, indicating that the file type is unknown
+            or not applicable.
+        DT_FIFO (int): 1 in the code snippet provided, indicating that the directory
+            entry is a FIFO (first-in-first-out) file system.
+        DT_CHR (int): 2 in value, indicating that the directory entry is a character
             special file.
-        DT_DIR (4bit): 10 in value, indicating that the directory entry is a directory.
-        DT_BLK (6bit): 1 of the 8 possible types of directories represented by
-            this struct. It indicates whether the directory is a block device.
-        DT_REG (8bit): 14 in the summary.
-        DT_LNK (10byte): Used to store the link target for a symbolic link.
-        DT_SOCK (12bit): 12-bit binary integer that represents a socket file.
-        DT_WHT (14bit): 0 by default, indicating that the file or directory is a
-            whiteout.
+        DT_DIR (int): 4, indicating that the file is a directory.
+        DT_BLK (Union[int,str]): 6th in the list of possible values for the directory
+            entry type.
+        DT_REG (int): 8 in value, indicating that the directory entry is a regular
+            file.
+        DT_LNK (Union[int,str]): 10th in the list of possible values for the `DT`
+            field, representing a symbolic link.
+        DT_SOCK (int): 12 in value, indicating that the directory entry represents
+            a socket file.
+        DT_WHT (str|int): 14th in the list of attributes. It represents the file
+            type as a whiteout, which can be either a string or an integer value.
 
     """
     DT_UNKNOWN = 0
@@ -81,12 +84,12 @@ class dirent(ctypes.Structure):
 
     def __init__(self, cdirent=None):
         """
-        Sets attributes of a `dirent` object, either by inheriting values from its
-        parent `cdirent` object or by setting them to `None`.
+        Sets attributes to values from either the parent cdirent instance or the
+        default value of None if no value is provided.
 
         Args:
-            cdirent (object): Used to initialize the instance attributes of the
-                class using the attribute names and values from an object.
+            cdirent (object): Used to initialize instance attributes with values
+                from the class dictionary.
 
         """
         attributes = [a[0] for a in _cdirent._fields_]
@@ -98,15 +101,14 @@ class dirent(ctypes.Structure):
 
 def readdir(directory):
     """
-    Recursively reads and returns a list of directory entries in the specified directory.
+    Iteratively reads and returns a list of directories and files in a specified
+    directory.
 
     Args:
-        directory (str): Used to specify the directory to be searched for files
-            or subdirectories.
+        directory (str): A path to a directory for which entries will be read.
 
     Returns:
-        list: A collection of directory entry objects representing the contents
-        of a directory.
+        List[str]: A list of file and directory names in a given directory.
 
     """
     entries = []

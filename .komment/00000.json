@@ -4,7 +4,7 @@
     "path": "pcplib/__init__.py",
     "content": {
       "structured": {
-        "description": "A function named `processData` that takes in data as input and performs various operations on it, including converting it into a pandas DataFrame, applying a mapping function to it, and then visualizing the results using matplotlib. The `pandas` and `matplotlib` packages are used throughout the code for data manipulation and visualization.",
+        "description": "A class called `Person` with three attributes: `name`, `age`, and `email`. It also provides a method called `sayHello` that uses a string concatenation operator to create a personalized greeting message based on the `name` attribute. The method returns a `String` object representing the greeting message. Additionally, the code defines an inner class called `Student` within the `Person` class, which provides an additional attribute called `grade` and a method called `printGrade` that returns a `String` object representing the student's grade.",
         "items": []
       }
     }
@@ -14,32 +14,32 @@
     "path": "pcplib/driver.py",
     "content": {
       "structured": {
-        "description": "A class `Car` that has attributes for make, model, and fuel capacity, as well as methods for starting, driving, and stopping the car. The `calculate_efficiency` function calculates the fuel efficiency of the car based on the distance traveled and the amount of fuel used. The code also includes a main function that creates an instance of the `Car` class and prints the results of the various methods called on it.",
+        "description": "A `Car` class with properties and methods for tracking fuel level and efficiency. The `calculate_efficiency` function calculates the fuel efficiency based on distance traveled and fuel used. The main function creates an instance of the `Car` class and calls its methods to demonstrate their usage.",
         "items": [
           {
-            "id": "73c625ae-2661-9181-bb44-1f7437f7887b",
+            "id": "4efdc41c-1be3-1db3-0a42-d567a05355a9",
             "ancestors": [],
-            "description": "Has methods for starting, driving and stopping a car. It also keeps track of the fuel level and provides messages based on the available fuel level.",
+            "description": "Provides methods for starting, driving, and stopping a car. It tracks the fuel level and informs the user if there is not enough fuel to complete a drive.",
             "attributes": [
               {
                 "name": "make",
                 "type_name": "str",
-                "description": "Initialized with the value of the object's `make` parameter during its initialization."
+                "description": "Assigned to the constructor when initializing the object, representing the brand or manufacturer of the car."
               },
               {
                 "name": "model",
                 "type_name": "str",
-                "description": "A variable representing the name of the car's model."
+                "description": "Representative of a car's model name."
               },
               {
                 "name": "fuel_capacity",
                 "type_name": "int",
-                "description": "0 by default, representing the maximum amount of fuel that can be carried by the vehicle."
+                "description": "Used to store the maximum amount of fuel a car can hold, measured in units of the same as the `fuel_level` attribute."
               },
               {
                 "name": "fuel_level",
-                "type_name": "int",
-                "description": "Initialized to 0 when the object is created. It represents the amount of fuel remaining in the car."
+                "type_name": "int|str",
+                "description": "0 by default, representing the current amount of fuel in the vehicle's tank."
               }
             ],
             "name": "Car",
@@ -55,32 +55,32 @@
             "docLength": null
           },
           {
-            "id": "f3b14b05-230f-9989-d742-747d2db2e461",
+            "id": "3a05bf71-20e1-90af-a148-f613bc3da516",
             "ancestors": [
-              "73c625ae-2661-9181-bb44-1f7437f7887b"
+              "4efdc41c-1be3-1db3-0a42-d567a05355a9"
             ],
-            "description": "Class sets instance variables 'make', 'model', and 'fuelCapacity' and initializes 'fuel level' to zero.",
+            "description": "Sets the make, model, and fuel capacity attributes and initializes the fuel level to 0.",
             "params": [
               {
                 "name": "make",
                 "type_name": "str",
-                "description": "Assigned to instance variable `make`."
+                "description": "Set to the vehicle's make."
               },
               {
                 "name": "model",
                 "type_name": "str",
-                "description": "Used to represent the name or identification of the specific vehicle model."
+                "description": "Defined as the model name for the vehicle."
               },
               {
                 "name": "fuel_capacity",
                 "type_name": "int",
-                "description": "Used to represent the maximum amount of fuel that can be stored in the vehicle's tank."
+                "description": "Representing the maximum amount of fuel that can be stored in the vehicle."
               }
             ],
             "returns": null,
             "usage": {
               "language": "python",
-              "code": "car = Car(\"Toyota\", \"Camry\", 20)\nprint(car.make, car.model, car.fuel_capacity) # Output: Toyota Camry 20\n",
+              "code": "car = Car(\"Toyota\", \"Prius\", 30)\ncar.start()\ncar.drive(100)\ncar.stop()\n",
               "description": ""
             },
             "name": "__init__",
@@ -91,24 +91,24 @@
               "indent": 8,
               "comment": null
             },
-            "item_type": "method",
+            "item_type": "constructor",
             "length": 5,
             "docLength": null
           },
           {
-            "id": "ab532930-50dd-1194-e646-68ad9900d4b7",
+            "id": "0e48b4ff-e11f-2f9b-d24d-393065a22e89",
             "ancestors": [
-              "73c625ae-2661-9181-bb44-1f7437f7887b"
+              "4efdc41c-1be3-1db3-0a42-d567a05355a9"
             ],
-            "description": "Determines whether to allow the car to start based on the level of fuel remaining and returns appropriate messages depending on the outcome.",
+            "description": "Checks if the fuel level is above zero and then returns a message indicating that the car has started. If the fuel level is zero, it returns a message asking for more fuel to be added.",
             "params": [],
             "returns": {
               "type_name": "str",
-              "description": "A message indicating whether the vehicle can be started or not."
+              "description": "A message indicating that the vehicle has started or an error message if there is no fuel left."
             },
             "usage": {
               "language": "python",
-              "code": "# Create a new instance of the Car class\nmy_car = Car(\"Toyota\", \"Camry\", 15)\n\n# Start the car\nstarted = my_car.start()\nprint(started) # Output: Toyota Camry started.\n\n# Drive some distance\ndriven = my_car.drive(20)\nprint(driven) # Output: Toyota Camry drove 20 kilometers.\n\n# Stop the car\nstopped = my_car.stop()\nprint(stopped) # Output: Toyota Camry stopped.\n",
+              "code": "car = Car(\"Toyota\", \"Camry\", 20)\n\n# Fill up the car with fuel\ncar.fuel_level = 20\n\n# Start the car\nstarted_car = car.start()\n\nprint(started_car) # Output: Toyota Camry started.\n",
               "description": ""
             },
             "name": "start",
@@ -124,16 +124,16 @@
             "docLength": null
           },
           {
-            "id": "56c637c2-e188-b3ae-f24d-7951fe188e48",
+            "id": "1d431d25-24d5-a2b3-4f42-58ccb2b1cc19",
             "ancestors": [
-              "73c625ae-2661-9181-bb44-1f7437f7887b"
+              "4efdc41c-1be3-1db3-0a42-d567a05355a9"
             ],
-            "description": "Determines if the vehicle can travel distance based on available fuel level. If enough fuel, it subtracts the necessary amount and returns message of successful journey. Otherwise, it returns a message indicating insufficient fuel.",
+            "description": "Class calculates the amount of fuel needed to travel a given distance and checks if the current fuel level is sufficient. If not, it subtracts the necessary fuel from the current level and returns a message. Otherwise, it returns a message indicating that the distance can be driven.",
             "params": [
               {
                 "name": "distance",
-                "type_name": "int",
-                "description": "Representing the distance to be driven by the vehicle."
+                "type_name": "float",
+                "description": "Used to represent the distance to be driven by the vehicle, which can range from 0 to any positive value."
               }
             ],
             "returns": {
@@ -142,7 +142,7 @@
             },
             "usage": {
               "language": "python",
-              "code": "# create instance of Car class\nmy_car = Car(\"Toyota\", \"Prius\", 10)\n\n# set fuel level to 5 liters\nmy_car.fuel_level = 5\n\n# drive the car for a distance of 10 kilometers\nprint(my_car.drive(10)) # Output: \"Toyota Prius drove 10 kilometers.\"\n",
+              "code": "# Instantiate a Car object and set its fuel capacity\ncar = Car(\"Toyota\", \"Camry\", 20)\n\n# Check if car can start\nif car.start():\n    print(f\"{car.make} {car.model} started.\")\nelse:\n    print(\"Cannot start. Add fuel.\")\n\n# Drive the car a certain distance and check if enough fuel is available\ndistance = 100\nif car.drive(distance):\n    print(f\"{car.make} {car.model} drove {distance} kilometers.\")\nelse:\n    print(\"Not enough fuel to drive that far.\")\n\n# Stop the car\ncar.stop()\nprint(f\"{car.make} {car.model} stopped.\")\n",
               "description": ""
             },
             "name": "drive",
@@ -158,28 +158,28 @@
             "docLength": null
           },
           {
-            "id": "791d41df-5305-05be-e343-4face49d8de4",
+            "id": "94e58a8b-a8aa-d793-7b48-53168c3d17eb",
             "ancestors": [],
-            "description": "Calculates the fuel efficiency of a vehicle based on the distance traveled and the amount of fuel used. It returns a string message indicating the fuel efficiency in kilometers per liter.",
+            "description": "Calculates the fuel efficiency of a vehicle based on the distance traveled and the amount of fuel used, returning the result in kilometers per liter.",
             "params": [
               {
                 "name": "distance",
-                "type_name": "int",
-                "description": "Passed as the distance traveled by the vehicle, in kilometers."
+                "type_name": "float",
+                "description": "Representing the distance traveled by the vehicle during which the fuel consumption was measured."
               },
               {
                 "name": "fuel_used",
-                "type_name": "double",
-                "description": "Representing the amount of fuel consumed by the vehicle during its journey, usually measured in liters."
+                "type_name": "float",
+                "description": "Used to represent the amount of fuel consumed by a vehicle during a given distance travelled."
               }
             ],
             "returns": {
-              "type_name": "str",
-              "description": "\"Fuel efficiency: {efficiency} km/liter\"."
+              "type_name": "float",
+              "description": "Fuel efficiency, measured in kilometers per liter."
             },
             "usage": {
               "language": "python",
-              "code": "distance = 500\nfuel_used = 20\nefficiency = calculate_efficiency(distance, fuel_used)\nprint(f\"Fuel efficiency: {efficiency} km/liter\")\n# Output: Fuel efficiency: 2.5 km/liter\n",
+              "code": "fuel_used = 5000\ndistance = 10000\n\n# Calling the function\nresult = calculate_efficiency(distance, fuel_used)\n\n# Printing the result\nprint(result)\n\n# Output: Fuel efficiency: 2 km/liter\n",
               "description": ""
             },
             "name": "calculate_efficiency",
@@ -203,32 +203,37 @@
     "path": "pcplib/fastwalk.py",
     "content": {
       "structured": {
-        "description": "A function `fastwalk` that recursively traverses directories and generates a tuple of (source directory, directories, files) based on the contents of each directory. It uses the `readdir` module to read the contents of the source directory, and the `safestat` module to determine the file type of each file. The function also utilizes the `topdown` parameter to control the traversal order. The code includes the use of packages such as `os`, `readdir`, `safestat`, and `dirent`.",
+        "description": "A `fastwalk` function that recursively walks through the contents of a directory and its subdirectories, generating a tuple containing the source directory, the directories found, and the files found. The function uses the `os`, `readdir`, `stat`, and `safestat` modules to perform the walk and determine file types. It also includes an optional `onerror` parameter to handle errors that may occur during the walk. The function returns a tuple of tuples, with each element of the tuple representing a directory or file found in the walk.",
         "items": [
           {
-            "id": "98b8c3e7-9ea7-4687-5140-4428042f2dca",
+            "id": "637cff3c-91fb-4cbc-e148-6e8e63eefcfe",
             "ancestors": [],
-            "description": "Iterates through subdirectories and files within a given source directory, recursively calling itself for each directory until all files and directories are processed. It returns an iterator over the source directory, its subdirectories, and the files within those subdirectories.",
+            "description": "Traverses a directory tree and yields a tuple of (source directory, subdirectory list, file list) for each directory it encounters. It also recursively traverses subdirectories and yields additional tuples for each directory found.",
             "params": [
               {
                 "name": "sourcedir",
-                "type_name": "ospathPathlike",
-                "description": "Used to specify the directory to walk through, recursively listing its contents."
+                "type_name": "osPathLike|str",
+                "description": "Used to specify the starting directory for the recursive walk."
               },
               {
                 "name": "onerror",
-                "type_name": "OptionalCallable",
-                "description": "Used to handle errors that may occur during the traversal of the directory tree."
+                "type_name": "Optional[Callable]",
+                "description": "Used to handle errors that occur during the recursive traversal of the directory tree. It takes an exception object as input and can be used to perform custom error handling."
               },
               {
                 "name": "topdown",
                 "type_name": "bool",
-                "description": "Used to control the recursion depth of the function. When set to `True`, the function recursively traverses directories; when set to `False`, it only lists the top-level files in the directory."
+                "description": "Used to indicate whether the walk should be performed recursively or not. If set to True, the function will perform a recursive walk of the directory tree; if set to False, it will only return the direct children of the starting directory."
               }
             ],
             "yields": {
-              "type_name": "tuple",
-              "description": "Composed of three elements: the source directory, a list of directories, and a list of files."
+              "type_name": "Tuple[str,List[str],List[str]]",
+              "description": "A source directory path, a list of directories, and a list of files."
+            },
+            "usage": {
+              "language": "python",
+              "code": "# Create a list of files and directories in a directory using fastwalk\ndirlist = []\nfilelist = []\nfastwalk('path/to/directory', dirlist, filelist)\nprint(dirlist)\nprint(filelist)\n",
+              "description": ""
             },
             "name": "fastwalk",
             "location": {
@@ -254,17 +259,17 @@
     "path": "pcplib/lustreapi.py",
     "content": {
       "structured": {
-        "description": "A module that provides functions for working with Lustre file striping. The module includes a `getstripe()` function that returns a stripe object containing information about the stripe of a given file, and a `setstripe()` function that sets the striping parameters for an existing file or creates a new empty file with specified striping parameters. The code uses the `ctypes` package to interact with the Lustre C API, and it defines various data structures and functions to work with Lustre metadata and stripes.",
+        "description": "A `stripe` module that provides functionality for working with LUSTRE file system striping. It includes classes and functions for querying and manipulating striping information, as well as setting and copying striping attributes for files or directories. The code uses the `ctypes` package to interact with the LUSTRE library, which provides a low-level interface for working with the file system. The code also includes a `captureStderr` class for intercepting stderr output from the `lustre` module, which can be useful for debugging purposes.",
         "items": [
           {
-            "id": "5d21f622-2eaa-6985-1d41-d91a90537b0b",
+            "id": "ea5d647d-839f-349c-9044-78d276f2956f",
             "ancestors": [],
-            "description": "Defines a structure with fields for object ID, group ID, generation number, and index value, likely used to store user data for OST (Operating System Technology) functionality.",
+            "description": "Represents user object data, including ID, group ID, generation number, and index for an unspecified purpose.",
             "attributes": [
               {
                 "name": "_fields_",
                 "type_name": "ctypesStructure",
-                "description": "A list of field names and data types for the class, including \"l_object_id\", \"l_object_gr\", \"l_ost_gen\", and \"l_ost_idx\"."
+                "description": "An array of field names for the structure."
               }
             ],
             "name": "lov_user_ost_data_v1",
@@ -280,14 +285,14 @@
             "docLength": null
           },
           {
-            "id": "0769b52b-124b-eb92-2848-b4f391228eb7",
+            "id": "6c252300-983a-2ca3-c54d-bacfdc0fbd68",
             "ancestors": [],
-            "description": "Defines a structure for storing metadata related to user objects, including magic number, pattern, object ID, group ID, stripe size, count, and offset. It also provides an array of pointers to `lov_user_ost_data_v1` structures.",
+            "description": "Defines a struct for storing metadata related to user data, including magic number, pattern ID, object ID, and other information necessary for efficient storage and retrieval.",
             "attributes": [
               {
                 "name": "_fields_",
-                "type_name": "ctypesc_ulonglong",
-                "description": "Defined as a list of field names and data types, including lmm_magic, lmm_pattern, etc."
+                "type_name": "ctypesStructure",
+                "description": "A list of field names for the structure, including \"lmm_magic\", \"lmm_pattern\", \"lmm_object_id\", and others."
               }
             ],
             "name": "lov_user_md_v1",
@@ -303,34 +308,34 @@
             "docLength": null
           },
           {
-            "id": "8373bb68-0688-188a-0742-98b3c423b4d8",
+            "id": "8517e52e-7bdb-5383-184d-62736d612f58",
             "ancestors": [],
-            "description": "Represents a stripe of data with various attributes, including count, size, and offset. It also includes a list of object IDs for each stripe. The `isstriped` method checks if the stripe is non-empty based on its `stripecount`, `-1` indicating an empty stripe.",
+            "description": "Manages stripe-related data and provides methods to access or manipulate that data, including counting the number of stripes, calculating their size, and checking if a given element is striped.",
             "attributes": [
               {
                 "name": "lovdata",
                 "type_name": "lov_user_md_v1",
-                "description": "Not defined explicitly."
+                "description": "Used to store user metadata for stripes."
               },
               {
                 "name": "stripecount",
                 "type_name": "int",
-                "description": "Initialized to -1 upon object initialization. It represents the number of stripes that an\nobject has."
+                "description": "1-based, indicating the number of stripes found in the object."
               },
               {
                 "name": "stripesize",
                 "type_name": "int",
-                "description": "0 by default, indicating that the stripe size is unknown or uninitialized."
+                "description": "0 by default, representing the size of a stripe segment."
               },
               {
                 "name": "stripeoffset",
                 "type_name": "int",
-                "description": "Used to store a count of the number of stripes offset from the starting point of the \nobject. It helps determine if an object is striped or not."
+                "description": "Used to represent the offset of a stripe within a larger dataset."
               },
               {
                 "name": "ostobjects",
-                "type_name": "list",
-                "description": "A container for storing object index-object id pairs."
+                "type_name": "List[ObjectStriped]",
+                "description": "A list of objects that are associated with the current stripe."
               }
             ],
             "name": "stripeObj",
@@ -349,15 +354,20 @@
             "docLength": 13
           },
           {
-            "id": "847e0184-4f4a-e991-684e-5358011f6b47",
+            "id": "97ab32f2-d620-38a4-cb42-7cb4617b93ef",
             "ancestors": [
-              "8373bb68-0688-188a-0742-98b3c423b4d8"
+              "8517e52e-7bdb-5383-184d-62736d612f58"
             ],
-            "description": "For the `stripeObj` class returns a string representing the stripe count, size, and offset, along with information about the objects contained within the stripe.",
+            "description": "Generates a string representation of an object by concatenating various attributes, including Stripe Count, Size, Offset, and information about OstObjects.",
             "params": [],
             "returns": {
               "type_name": "str",
-              "description": "A string that contains information about Stripe objects including their count, size, and offset, as well as the index and ID of each object."
+              "description": "A string containing various information about the object's stripes, offsets, and objects."
+            },
+            "usage": {
+              "language": "python",
+              "code": "stripe = stripeObj() # Create an instance of the class\nstripe.lovdata = lov_user_md_v1() # Initialize the class with some values\nstripe.stripecount = 3 # Set some properties\nstripe.stripesize = 4096\nstripe.stripeoffset = 0\nstripe.ostobjects = [OST(\"object\", 1), OST(\"object\", 2)] # Add some objects to the stripe\nprint(stripe) # Print the stripe using __str__() method\n",
+              "description": ""
             },
             "name": "__str__",
             "location": {
@@ -372,13 +382,18 @@
             "docLength": null
           },
           {
-            "id": "b2e8102a-9bcd-10a2-6340-4b4959747948",
+            "id": "f99c3d49-5f4b-86aa-8745-4c03b277a9ea",
             "ancestors": [
-              "8373bb68-0688-188a-0742-98b3c423b4d8"
+              "8517e52e-7bdb-5383-184d-62736d612f58"
             ],
-            "description": "Initializes an instance of the `stripeObj` class, setting its member variables to default values.",
+            "description": "Sets up instance variables for lovdata, stripecount, stripesize, stripeoffset, and ostobjects.",
             "params": [],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "obj = stripeObj()\nobj.stripecount = 2\nobj.stripesize = 10000\nobj.stripeoffset = 0\nobj.ostobjects = [ost1, ost2]\nprint(obj)\n",
+              "description": "\nThe above code creates an instance of the `stripeObj` class and sets its properties using the `__init__` method. The end-user can then use the `isstriped` function to determine whether or not the object is striped."
+            },
             "name": "__init__",
             "location": {
               "start": 89,
@@ -387,20 +402,25 @@
               "indent": 8,
               "comment": null
             },
-            "item_type": "method",
+            "item_type": "constructor",
             "length": 6,
             "docLength": null
           },
           {
-            "id": "77a1f9d4-484c-19b0-fe47-dfe4f71d1ad9",
+            "id": "66bc99ed-2ea7-d49c-be48-ab020af04ecb",
             "ancestors": [
-              "8373bb68-0688-188a-0742-98b3c423b4d8"
+              "8517e52e-7bdb-5383-184d-62736d612f58"
             ],
-            "description": "Determines if an instance of `stripeObj` has a stripe pattern based on the value of `self.stripecount`. If the count is greater than 1 or negative, the function returns `True`, otherwise it returns `False`.",
+            "description": "Determines if the number of stripes in an object is greater than 1 or equal to -1, returning True if so and False otherwise.",
             "params": [],
             "returns": {
-              "type_name": "Boolean",
-              "description": "True if the stripecount is greater than 1 or equal to -1 and False otherwise."
+              "type_name": "bool",
+              "description": "True when the stripe count is greater than 1 or equal to -1, and False otherwise."
+            },
+            "usage": {
+              "language": "python",
+              "code": "# Initialize the stripe object\nstripe = stripeObj()\n\n# Set the number of stripes\nstripe.stripecount = 2\n\n# Set the size of each stripe\nstripe.stripesize = 10\n\n# Set the offset for the first stripe\nstripe.stripeoffset = 0\n\n# Add an OST object to the stripe\nost = ostObj()\nost.l_ost_idx = 2\nost.l_object_id = 3\nstripe.ostobjects.append(ost)\n\n# Check if the stripe is striped\nprint(stripe.isstriped()) # Output: True\n",
+              "description": ""
             },
             "name": "isstriped",
             "location": {
@@ -415,19 +435,24 @@
             "docLength": null
           },
           {
-            "id": "8d2eff55-f833-35a4-7d45-afd12417ceee",
+            "id": "8e49806f-64f2-1fa5-3944-75d3a53a4ea7",
             "ancestors": [],
-            "description": "Retrieves stripe information from a file and stores it in an instance of the `stripeObj` class, handling errors and skipping empty or corrupted files.",
+            "description": "Retrieves the stripe information for a file and populates an instance of the `stripeobj` class with the retrieved data.",
             "params": [
               {
                 "name": "filename",
                 "type_name": "str",
-                "description": "The file name to read the stripes from."
+                "description": "Used to specify the path to a file for which the stripes are to be extracted."
               }
             ],
             "returns": {
-              "type_name": "StripeObject",
-              "description": "A wrapper class for Lustre stripes. The object contains information such as stripe count, size, and offset."
+              "type_name": "stripeobj",
+              "description": "A class that contains information about a file's stripes, including the count, size, and offset."
+            },
+            "usage": {
+              "language": "python",
+              "code": "filename = \"example_file\"\nstripeobj = getstripe(filename)\nif stripeobj.stripecount > 0:\n    for i in range(0, stripeobj.stripecount):\n        print(\"Stripe\", i, \"contains OST\", stripeobj.ostobjects[i].l_ost_idx)\n",
+              "description": ""
             },
             "name": "getstripe",
             "location": {
@@ -445,19 +470,19 @@
             "docLength": 9
           },
           {
-            "id": "57ef9a41-169c-5698-e742-d2a403011ba5",
+            "id": "1358f242-3ddb-8593-c341-a3338d1a3c4a",
             "ancestors": [],
-            "description": "Sets stripes on a file, captures error messages from Lustre API, and returns the file descriptor or raises an IOError if there is an issue.",
+            "description": "Modifies the stripes of a file using the Lustre library, taking into account various parameters such as filename, stripe object, size, offset, and count.",
             "params": [
               {
                 "name": "filename",
                 "type_name": "str",
-                "description": "Used to represent the name of the file to be stripped."
+                "description": "Used to specify the name of the file to be stripped with Lustre."
               },
               {
                 "name": "stripeobj",
-                "type_name": "llusterevent",
-                "description": "Passed to the `llusteapi_file_open` function, which represents a file object with stripes. It contains information about the stripes, such as size, offset, and count."
+                "type_name": "object|NoneType",
+                "description": "Used to store the stripe object information for the file being created or modified, including its size, offset, and count."
               },
               {
                 "name": "stripesize",
@@ -466,18 +491,23 @@
               },
               {
                 "name": "stripeoffset",
-                "type_name": "int",
-                "description": "Used to specify the offset of the stripe in the file."
+                "type_name": "int|1",
+                "description": "Used to specify the starting offset of the stripes in the file."
               },
               {
                 "name": "stripecount",
                 "type_name": "int",
-                "description": "1 by default, indicating that one stripe will be created for each file."
+                "description": "1 by default, indicating that only one stripe will be created for the given file."
               }
             ],
             "returns": {
-              "type_name": "0valued",
-              "description": "0, indicating successful execution and no error."
+              "type_name": "int",
+              "description": "0 when the file is opened successfully, and a negative error code when there is an error."
+            },
+            "usage": {
+              "language": "python",
+              "code": "filename = \"example_file.txt\"\n# Create a new stripped file with 2 stripes, each of size 10 MiB, and a total size of 30 MiB\nsetstripe(filename, stripesize=10 * 1024 * 1024, stripecount=3)\n",
+              "description": ""
             },
             "name": "setstripe",
             "location": {
@@ -495,29 +525,29 @@
             "docLength": 26
           },
           {
-            "id": "34b13b3f-6a9e-ffa7-f44f-660f0dcd9c27",
+            "id": "82a4fb6e-1668-3ea0-4940-902311aae9ee",
             "ancestors": [],
-            "description": "Captures stderr output from a process and provides a way to read the captured data. It creates a pipe for reading and writing, duplicates the stderr stream, and reads data from the pipe using `os.read()`.",
+            "description": "Captures the standard error output of a process and returns it as a string, allowing the contents to be read line by line.",
             "attributes": [
               {
                 "name": "pipeout",
                 "type_name": "int",
-                "description": "Used to represent the output pipe created by os.pipe() for capturing stderr streams."
+                "description": "Used to read data from a pipe."
               },
               {
                 "name": "pipein",
-                "type_name": "int",
-                "description": "Used to indicate the file descriptor for the reading end of a pipe."
+                "type_name": "int|str",
+                "description": "A file descriptor that points to the reading end of a pipe used for capturing stderr output."
               },
               {
                 "name": "oldstderr",
-                "type_name": "int",
-                "description": "Used for restoring the original stderr file descriptor before capturing stderr output."
+                "type_name": "int|str",
+                "description": "Used to restore the original stderr file descriptor after capturing the stderr output."
               },
               {
                 "name": "contents",
                 "type_name": "str",
-                "description": "The contents of the standard error output stream read from the pipe, which can be retrieved by calling the `readData()` method."
+                "description": "A buffer for storing the captured stderr content during the process execution."
               }
             ],
             "name": "captureStderr",
@@ -536,13 +566,18 @@
             "docLength": 1
           },
           {
-            "id": "2b19b4ec-6793-b1b9-b44f-f9e746a35377",
+            "id": "71941496-6f94-4fa9-4349-42edb5e68df0",
             "ancestors": [
-              "34b13b3f-6a9e-ffa7-f44f-660f0dcd9c27"
+              "82a4fb6e-1668-3ea0-4940-902311aae9ee"
             ],
-            "description": "Creates a pipe and redirects standard error to it, then sets a variable `contents` to a string value.",
+            "description": "Creates two pipes, one for input and one for output, and redirects stderr to the output pipe using dup2.",
             "params": [],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "# create an instance of the captureStderr class and start capturing stderr\nc = captureStderr()\n\n# perform some action that writes to stderr\nprint(\"This will be captured\", file=sys.stderr)\n\n# read the captured data\nprint(c.readData())\n\n# stop capturing stderr and clean up resources\nc.stopCapture()\n",
+              "description": ""
+            },
             "name": "__init__",
             "location": {
               "start": 204,
@@ -551,18 +586,23 @@
               "indent": 8,
               "comment": null
             },
-            "item_type": "method",
+            "item_type": "constructor",
             "length": 5,
             "docLength": null
           },
           {
-            "id": "85b458fa-5014-21a2-644d-53a01997ddc5",
+            "id": "d5a9eb83-45f3-fc89-c442-878068440668",
             "ancestors": [
-              "34b13b3f-6a9e-ffa7-f44f-660f0dcd9c27"
+              "82a4fb6e-1668-3ea0-4940-902311aae9ee"
             ],
-            "description": "Reads data from a pipe until it reaches an end-of-file, storing the contents in a class variable `contents`.",
+            "description": "Reads data from the pipe output by os.read(self.pipeout, 1024) until self.checkData() is False.",
             "params": [],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "capture = captureStderr()\n# Start capturing stderr output\ncapture.startCapture()\n\n# Run command that outputs to stderr\nsubprocess.run([\"command\", \"with\", \"stderr\"])\n\n# Stop capturing stderr output\ncapture.stopCapture()\n\nprint(capture)\n",
+              "description": ""
+            },
             "name": "readData",
             "location": {
               "start": 213,
@@ -579,15 +619,20 @@
             "docLength": 1
           },
           {
-            "id": "d77ff7de-e490-ada1-8346-3e3348e713ba",
+            "id": "e07c424b-8b87-b0ab-c34c-4f503ba11510",
             "ancestors": [
-              "34b13b3f-6a9e-ffa7-f44f-660f0dcd9c27"
+              "82a4fb6e-1668-3ea0-4940-902311aae9ee"
             ],
-            "description": "Evaluates whether the pipeout variable is present or not.",
+            "description": "Class checks if any data is available in the pipeout variable by calling the `select` function and returns a boolean value indicating whether any data is present.",
             "params": [],
             "returns": {
               "type_name": "bool",
-              "description": "1 if there is data available to be read from the pipe, and 0 otherwise."
+              "description": "1 if there are any items in the list `self.pipeout`, and 0 otherwise."
+            },
+            "usage": {
+              "language": "python",
+              "code": "import select\n\n# Create an instance of the class captureStderr\nstderr_capturer = captureStderr()\n\n# Start capturing stderr output\nstderr_capturer.startCapture()\n\n# Do some work that generates stderr output\nprint(\"This will generate some stderr output\")\n\n# Check if there is data available in the pipeout file descriptor\nif stderr_capturer.checkData():\n    # Read the data from the pipeout file descriptor\n    stderr_data = stderr_capturer.readData()\n    \n    # Print the captured stderr output\n    print(stderr_data)\n\n# Stop capturing stderr output\nstderr_capturer.stopCapture()\n",
+              "description": ""
             },
             "name": "checkData",
             "location": {
@@ -605,13 +650,18 @@
             "docLength": 1
           },
           {
-            "id": "a329267b-e64d-7690-3b4b-fbc5fe9ef9dc",
+            "id": "7760b8a2-4861-2f82-0d4f-085c0fca8f88",
             "ancestors": [
-              "34b13b3f-6a9e-ffa7-f44f-660f0dcd9c27"
+              "82a4fb6e-1668-3ea0-4940-902311aae9ee"
             ],
-            "description": "In the `captureStderr` class closes the pipe output and input and duplicates the standard error stream to the new file descriptor 2, effectively stopping the capture of stderr.",
+            "description": "Closes pipeout and oldstderr, duplicating stderr to 2 for further use",
             "params": [],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "import captureStderr\n\n# Create an instance of the captureStderr class\nstderr_capture = captureStderr()\n\n# Start capturing stderr messages\nstderr_capture.startCapture()\n\n# Simulate some code that generates stderr messages\nprint(\"Hello from stderr!\", file=sys.stderr)\nprint(\"Goodbye from stderr!\", file=sys.stderr)\n\n# Stop capturing stderr messages\nstderr_capture.stopCapture()\n\n# Get the captured stderr messages\nstderr_messages = stderr_capture.contents\n",
+              "description": ""
+            },
             "name": "stopCapture",
             "location": {
               "start": 223,
@@ -636,43 +686,255 @@
     "path": "pcplib/parallelwalk.py",
     "content": {
       "structured": {
-        "description": "A class `ParallelWalk` that implements a parallel directory walking algorithm for MPI-based distributed computing environments. The class takes an MPI communicator as an argument and provides methods for processing files and directories encountered during the walk. The `Execute` method starts the walker, which gathers summary data from other ranks using the `gatherResults` method and then exits. The code uses MPI4py and os packages.",
+        "description": "a class `ParallelWalk` that implements a distributed algorithm for processing a directory tree. The algorithm uses the Multi-Processing Interface (MPI) library to coordinate work among a group of processes. The code starts by initializing an MPI communicator and setting up various variables and methods for managing the walker's worklist, coloring, and communication with peers. The `Execute` method takes a seed directory as input and starts the walker by adding it to the worklist, setting the token color to white, and requesting work from random peers. The main loop consists of checking for pending communication requests, processing a node in the directory tree, and asking for more work if necessary. Once the worklist is empty, the code checks for termination conditions and gathers summary data from other ranks using the `gatherResults` method.",
         "items": [
           {
-            "id": "1d882e73-6b37-a5b5-814f-b7b778a73940",
-            "ancestors": [
-              "148427dc-3ddb-43b8-0f42-d6f85d4b0a47"
-            ],
-            "description": "Initializes various instance variables, including rank, workers, next worker, color, token, first worker, work request, and items, as well as results parameter passed to the constructor.",
-            "params": [
+            "id": "f20490bf-4657-51b7-3d4c-f94d854cd3d2",
+            "ancestors": [],
+            "description": "Manages a parallel walk, where multiple processes work together to accomplish a task. It maintains a queue of items to be worked on and tracks the progress of each process through a color-based system.",
+            "attributes": [
               {
-                "name": "comm",
-                "type_name": "Dup",
-                "description": "Used to store the communication object for the worker."
+                "name": "self.comm",
+                "type_name": "MPICommunicator",
+                "description": "Used to store a copy of the MPI communicator for inter-process communication."
               },
               {
-                "name": "results",
-                "type_name": "object",
-                "description": "Initialized to none by default. It represents the results of the task that this class \nrepresents, which can be used later to retrieve the outcome of the task."
+                "name": "self.rank",
+                "type_name": "int",
+                "description": "Initialized to be equal to the rank of the process creating the object, which is assigned by a communication module."
+              },
+              {
+                "name": "self.workers",
+                "type_name": "int",
+                "description": "0-based, representing the number of workers in a parallel walk simulation."
+              },
+              {
+                "name": "self.others",
+                "type_name": "List[int]",
+                "description": "Defined as the union of the set of integers from 0 to the rank of the walker plus one, representing the IDs of workers other than the current walker."
+              },
+              {
+                "name": "self.nextworker",
+                "type_name": "int|str",
+                "description": "Computed as (`rank + 1`) % `workers`. It determines the index of the next worker to be executed in the parallel walk."
+              },
+              {
+                "name": "self.colour",
+                "type_name": "str",
+                "description": "Set to \"White\"."
+              },
+              {
+                "name": "self.token",
+                "type_name": "bool",
+                "description": "Set to False by default, indicating whether the current worker has finished its task or not."
+              },
+              {
+                "name": "self.first",
+                "type_name": "bool",
+                "description": "Set to `True` when the object is created, indicating that this is the first worker in the parallel walk."
+              },
+              {
+                "name": "self.workrequest",
+                "type_name": "bool",
+                "description": "Set to false by default, indicating whether or not the walker has requested work from other walkers."
+              },
+              {
+                "name": "self.items",
+                "type_name": "Deque[Any]",
+                "description": "Used to store a queue of items to be processed in parallel by the worker processes."
+              },
+              {
+                "name": "self.results",
+                "type_name": "Union[None,List[str]]",
+                "description": "Used to store the results returned by the workers during parallel walking."
+              },
+              {
+                "name": "self.finished",
+                "type_name": "bool",
+                "description": "Set to `False` by default indicating that the walk has not completed yet."
               }
             ],
-            "returns": null,
-            "usage": {
-              "language": "python",
-              "code": "comm = MPI.COMM_WORLD\nresults = []\nwalker = ParallelWalk(comm, results)\nwalker.ProcessDir(\"path/to/directory\")\n",
-              "description": "\nIn this example, the end-user creates a `MPI` instance and initializes the `ParallelWalk` class with it. The walker then processes the directory specified by the user using the `ProcessDir()` method. The results of the walk are stored in the `results` list."
-            },
-            "name": "__init__",
+            "name": "ParallelWalk",
             "location": {
-              "start": 71,
-              "insert": 72,
+              "start": 12,
+              "insert": 13,
               "offset": " ",
               "indent": 8,
               "comment": null
             },
-            "item_type": "method",
-            "length": 13,
+            "item_type": "class",
+            "length": 14,
             "docLength": null
+          },
+          {
+            "id": "7a3f0517-ac29-299f-1f4a-08097bc1b7d2",
+            "ancestors": [],
+            "description": "Monitors for incoming work requests, sends items to other processes, and updates internal variables based on received tags.",
+            "name": "_CheckforRequests",
+            "location": {
+              "start": 48,
+              "insert": 49,
+              "offset": " ",
+              "indent": 8,
+              "comment": {
+                "start": 48,
+                "end": 51
+              }
+            },
+            "item_type": "function",
+            "length": 37,
+            "docLength": 3
+          },
+          {
+            "id": "8d853b02-86b9-32b8-6d43-dfaa50a2a26b",
+            "ancestors": [],
+            "description": "Pops an item from a list, determines the file type of the corresponding filename, and processes either the directory or file contents based on the file type.",
+            "name": "_ProcessNode",
+            "location": {
+              "start": 92,
+              "insert": 93,
+              "offset": " ",
+              "indent": 8,
+              "comment": {
+                "start": 92,
+                "end": 95
+              }
+            },
+            "item_type": "function",
+            "length": 26,
+            "docLength": 3
+          },
+          {
+            "id": "af09da1a-31f7-14ab-8944-be2d9faf7800",
+            "ancestors": [],
+            "description": "Sends a message \"Hungry\" to a random person in the group with the `comm` module, and sets `workrequest` to `True`.",
+            "name": "_AskForWork",
+            "location": {
+              "start": 125,
+              "insert": 126,
+              "offset": " ",
+              "indent": 8,
+              "comment": {
+                "start": 125,
+                "end": 126
+              }
+            },
+            "item_type": "function",
+            "length": 4,
+            "docLength": 1
+          },
+          {
+            "id": "e0047473-c30f-888b-5747-13b7140cfdba",
+            "ancestors": [],
+            "description": "Checks if the process should terminate based on factors such as number of workers and color token. If termination is necessary, it sends a shutdown signal to the next worker and updates variables for further processing.",
+            "name": "_CheckForTermination",
+            "location": {
+              "start": 131,
+              "insert": 132,
+              "offset": " ",
+              "indent": 8,
+              "comment": {
+                "start": 131,
+                "end": 132
+              }
+            },
+            "item_type": "function",
+            "length": 29,
+            "docLength": 1
+          },
+          {
+            "id": "8e8447fa-c3a0-acab-174a-f006c1cf469f",
+            "ancestors": [],
+            "description": "Sends a message \"Shutdown\" to all workers except the current one using the `comm` object's `send()` method, with the `dest` parameter set to each worker's index starting from 1 and the `tag` parameter set to 3.",
+            "name": "_sendShutdown",
+            "location": {
+              "start": 166,
+              "insert": 167,
+              "offset": " ",
+              "indent": 8,
+              "comment": {
+                "start": 166,
+                "end": 167
+              }
+            },
+            "item_type": "function",
+            "length": 3,
+            "docLength": 1
+          },
+          {
+            "id": "aa1159ad-ff00-438d-ba44-3c625c6e9f75",
+            "ancestors": [],
+            "description": "Uses the `gather` method from the `comm` module to collect results from a distributed computation and returns them in a list.",
+            "params": [
+              {
+                "name": "self",
+                "type_name": "GatherResults",
+                "description": "Used to represent the current instance of a class, which contains the results that are being gathered."
+              }
+            ],
+            "returns": {
+              "type_name": "object",
+              "description": "A result of gathering the results using the `comm.gather()` method."
+            },
+            "usage": {
+              "language": "python",
+              "code": "from mpi4py import MPI  # Importing the module\n\ncomm = MPI.COMM_WORLD  # Creating a communicator object\n\n# Initializing a variable to store the results\nresults = []\n\n# Gathering the results from each process using the gatherResults function\ndata = comm.gather(results, root=0)\n\n# Printing the gathered results\nprint(data)\n",
+              "description": ""
+            },
+            "name": "gatherResults",
+            "location": {
+              "start": 171,
+              "insert": 172,
+              "offset": " ",
+              "indent": 8,
+              "comment": {
+                "start": 171,
+                "end": 173
+              }
+            },
+            "item_type": "function",
+            "length": 3,
+            "docLength": 2
+          },
+          {
+            "id": "01a27491-2713-68ab-d24c-bd696c566301",
+            "ancestors": [],
+            "description": "Executes a distributed algorithm by processing nodes, handling requests, and terminating when no more work is available.",
+            "params": [
+              {
+                "name": "self",
+                "type_name": "Execute|rank0walker",
+                "description": "Used to represent the current rank0 walker instance being executed."
+              },
+              {
+                "name": "seed",
+                "type_name": "str|int",
+                "description": "Used to initialize the rank0 walker with the seed directory."
+              }
+            ],
+            "returns": {
+              "type_name": "object",
+              "description": "Generated by the code inside its main loop."
+            },
+            "usage": {
+              "language": "python",
+              "code": "# create an instance of the Execute class\nexecute = Execute(seed=4)\n\n# run the execute function with a given seed value\ndata = execute.Execute()\n\n# print the data gathered by the function\nprint(data)\n",
+              "description": ""
+            },
+            "name": "Execute",
+            "location": {
+              "start": 180,
+              "insert": 181,
+              "offset": " ",
+              "indent": 8,
+              "comment": {
+                "start": 180,
+                "end": 186
+              }
+            },
+            "item_type": "function",
+            "length": 23,
+            "docLength": 6
           }
         ]
       }
@@ -683,17 +945,17 @@
     "path": "pcplib/readdir.py",
     "content": {
       "structured": {
-        "description": "A module that provides a convenient interface for calling the `readdir` system call, which allows reading the contents of a directory. The module uses the ctypes library to interact with the `readdir` function, which returns a list of structured `dirent` objects representing the files and directories in the directory. The code defines classes and functions to work with these objects and provide convenient access to their properties.",
+        "description": "A module that provides a convenient interface for calling the `readdir` system call. It does this by defining a class `dirent` that represents the structure returned by `readdir`, and providing a high-level function `readdir` that calls `opendir`, reads directory entries, and closes the directory handle. The `readdir` function returns a list of `dirent` objects.",
         "items": [
           {
-            "id": "9923c468-8ec2-37b7-b64e-4d65f224471c",
+            "id": "624d49db-1226-8495-094e-bbb6954ba569",
             "ancestors": [],
-            "description": "Defines a structure for representing directory entry points, containing fields for inode number, offset, record length, type, and name.",
+            "description": "Defines a structure for representing directory entries, including file name, inode number, offset within the file, and file type and length.",
             "attributes": [
               {
                 "name": "_fields_",
-                "type_name": "ctypesPyStructSequence",
-                "description": "Defined as a list of tuples, where each tuple contains the name of a field followed by its data type. The fields are: `ino_t`, `off_t`, `d_reclen`, `d_type`, and `d_name`."
+                "type_name": "ctypesStructure",
+                "description": "A list of fields defined for the structure, including field names and data types: `[\"ino_t\", \"off_t\", \"d_reclen\", \"d_type\", \"d_name\"]`."
               }
             ],
             "name": "_cdirent",
@@ -709,54 +971,54 @@
             "docLength": null
           },
           {
-            "id": "14c7c332-98a7-22a8-a442-da2ace00bcaf",
+            "id": "55152d63-6bb0-7496-8e44-f39639b6464f",
             "ancestors": [],
-            "description": "Is an extension of the `ctypes.Structure` class and provides attributes for representing different types of directory entries. It includes methods for setting and retrieving attributes, such as file type, name, and size.",
+            "description": "Defines an object that represents a directory entry, allowing attributes to be accessed and modified through its methods.",
             "attributes": [
               {
                 "name": "DT_UNKNOWN",
-                "type_name": "int",
-                "description": "0."
+                "type_name": "int|str",
+                "description": "0 by default, indicating that the file type is unknown or not applicable."
               },
               {
                 "name": "DT_FIFO",
-                "type_name": "1bit",
-                "description": "0 or 1, indicating whether the directory entry is a FIFO (file-if-one-doesn't-exist)."
+                "type_name": "int",
+                "description": "1 in the code snippet provided, indicating that the directory entry is a FIFO (first-in-first-out) file system."
               },
               {
                 "name": "DT_CHR",
-                "type_name": "2bit",
-                "description": "0 or 1 indicating whether the directory entry is a character special file."
+                "type_name": "int",
+                "description": "2 in value, indicating that the directory entry is a character special file."
               },
               {
                 "name": "DT_DIR",
-                "type_name": "4bit",
-                "description": "10 in value, indicating that the directory entry is a directory."
+                "type_name": "int",
+                "description": "4, indicating that the file is a directory."
               },
               {
                 "name": "DT_BLK",
-                "type_name": "6bit",
-                "description": "1 of the 8 possible types of directories represented by this struct. It indicates whether the directory is a block device."
+                "type_name": "Union[int,str]",
+                "description": "6th in the list of possible values for the directory entry type."
               },
               {
                 "name": "DT_REG",
-                "type_name": "8bit",
-                "description": "14 in the summary."
+                "type_name": "int",
+                "description": "8 in value, indicating that the directory entry is a regular file."
               },
               {
                 "name": "DT_LNK",
-                "type_name": "10byte",
-                "description": "Used to store the link target for a symbolic link."
+                "type_name": "Union[int,str]",
+                "description": "10th in the list of possible values for the `DT` field, representing a symbolic link."
               },
               {
                 "name": "DT_SOCK",
-                "type_name": "12bit",
-                "description": "12-bit binary integer that represents a socket file."
+                "type_name": "int",
+                "description": "12 in value, indicating that the directory entry represents a socket file."
               },
               {
                 "name": "DT_WHT",
-                "type_name": "14bit",
-                "description": "0 by default, indicating that the file or directory is a whiteout."
+                "type_name": "str|int",
+                "description": "14th in the list of attributes. It represents the file type as a whiteout, which can be either a string or an integer value."
               }
             ],
             "name": "dirent",
@@ -772,19 +1034,24 @@
             "docLength": null
           },
           {
-            "id": "26ac9759-77bf-4f95-494c-3c871d4c10c7",
+            "id": "a9d5cab5-6427-8982-0843-49e3da6abfa8",
             "ancestors": [
-              "14c7c332-98a7-22a8-a442-da2ace00bcaf"
+              "55152d63-6bb0-7496-8e44-f39639b6464f"
             ],
-            "description": "Sets attributes of a `dirent` object, either by inheriting values from its parent `cdirent` object or by setting them to `None`.",
+            "description": "Sets attributes to values from either the parent cdirent instance or the default value of None if no value is provided.",
             "params": [
               {
                 "name": "cdirent",
                 "type_name": "object",
-                "description": "Used to initialize the instance attributes of the class using the attribute names and values from an object."
+                "description": "Used to initialize instance attributes with values from the class dictionary."
               }
             ],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "import ctypes\n\n# create a new dirent object\nmy_dirent = ctypes.Structure()\n\n# set the DT_UNKNOWN attribute to 0\nmy_dirent.DT_UNKNOWN = 0\n\n# set the DT_FIFO attribute to 1\nmy_dirent.DT_FIFO = 1\n",
+              "description": ""
+            },
             "name": "__init__",
             "location": {
               "start": 51,
@@ -793,24 +1060,29 @@
               "indent": 8,
               "comment": null
             },
-            "item_type": "method",
+            "item_type": "constructor",
             "length": 7,
             "docLength": null
           },
           {
-            "id": "fc7ae56b-61aa-a1a1-8b48-493c61695124",
+            "id": "92f3520a-3670-e380-5345-da07e9e296e9",
             "ancestors": [],
-            "description": "Recursively reads and returns a list of directory entries in the specified directory.",
+            "description": "Iteratively reads and returns a list of directories and files in a specified directory.",
             "params": [
               {
                 "name": "directory",
                 "type_name": "str",
-                "description": "Used to specify the directory to be searched for files or subdirectories."
+                "description": "A path to a directory for which entries will be read."
               }
             ],
             "returns": {
-              "type_name": "list",
-              "description": "A collection of directory entry objects representing the contents of a directory."
+              "type_name": "List[str]",
+              "description": "A list of file and directory names in a given directory."
+            },
+            "usage": {
+              "language": "python",
+              "code": "#!/usr/bin/env python3\nimport os\n\ndirectory = '/path/to/directory'\nentries = readdir(directory)\nfor entry in entries:\n    print(entry.name)\n",
+              "description": ""
             },
             "name": "readdir",
             "location": {
@@ -836,22 +1108,27 @@
     "path": "pcplib/safestat.py",
     "content": {
       "structured": {
-        "description": "A function `safestat` that uses a while loop to retry an `os.lstat()` call if it fails with an `IOError`. The function wraps the `lstat` call in a try-except block to catch and handle interrupts, ensuring that the operation can be retried if necessary.",
+        "description": "A `safestat` function that wraps the `os.lstat()` system call in a loop to retry if an interrupted system call occurs. The function takes a filename as input and returns the stat data after each attempt.",
         "items": [
           {
-            "id": "5c31283f-277b-0c84-f94a-fdec5535fb35",
+            "id": "5aaf9d6b-4351-328d-c147-0e48054db49f",
             "ancestors": [],
-            "description": "Attempts to retrieve file metadata using the `os.lstat()` method, and returns the result if successful, or raises an exception if there is an error.",
+            "description": "Tries to stat a file repeatedly until it succeeds, returning the last successful stat data if successful.",
             "params": [
               {
                 "name": "filename",
                 "type_name": "str",
-                "description": "Used to represent the name of the file for which the file status is being checked."
+                "description": "Passed as the address of a filename to check for modification."
               }
             ],
             "returns": {
-              "type_name": "osStatData",
-              "description": "A tuple containing information about the file or directory such as its size, permissions, and access time."
+              "type_name": "StatData|None",
+              "description": "16-bit integer containing file metadata or None if an error occurs during stat operation."
+            },
+            "usage": {
+              "language": "python",
+              "code": "import os\ndef safestat(filename):\n    while True:\n        try:\n            statdata = os.lstat(filename)\n            return(statdata)\n        except IOError, error:\n            if error.errno != errno.EINTR:\n                raise\n",
+              "description": ""
             },
             "name": "safestat",
             "location": {
@@ -877,17 +1154,17 @@
     "path": "pcplib/statfs.py",
     "content": {
       "structured": {
-        "description": "Bindings for the `statfs` function from the C standard library. It provides a way to query various metadata about a file system, such as its type, block size, blocks available, and more. The code uses the `ctypes` module to interface with the C library, allowing it to call C functions from Python. Specifically, it defines a `fstype` function that takes a path as input and returns the filesystem magic number for that path.",
+        "description": "Bindings for the `statfs` function from the C library, which provides information about a file system. The code defines two C data structures: `_fsid` and `_struct_statfs`, and uses the `ctypes` module to create Python wrappers around the C functions. The `fstype` function is defined, which takes a path as input and returns the filesystem magic number for that path using the `statfs` function.",
         "items": [
           {
-            "id": "149a6c97-ec21-ac85-0a47-d4344f1eb1c1",
+            "id": "33374da2-d165-3799-e746-b15de8b4db16",
             "ancestors": [],
-            "description": "Defines a structure with two integer members, `val`.",
+            "description": "Defines a structure with two `ctypes.c_int` members, which likely represent a file system identifier for use in low-level system interactions.",
             "attributes": [
               {
                 "name": "_fields_",
-                "type_name": "ctypesc_int",
-                "description": "2-element array of integers."
+                "type_name": "ctypesStructure",
+                "description": "2-element list of `ctypes.c_int`."
               }
             ],
             "name": "_fsid",
@@ -903,14 +1180,14 @@
             "docLength": null
           },
           {
-            "id": "9bd5e200-b70f-b18f-434a-4adc2d31da22",
+            "id": "5946353f-0ae1-b584-a644-a67b2966166e",
             "ancestors": [],
-            "description": "Defines a structure for storing file system statistics, including information about files and blocks.",
+            "description": "Defines a structure for representing file system information, including type, block size, blocks, available blocks, free space, files, and various flags.",
             "attributes": [
               {
                 "name": "_fields_",
-                "type_name": "ctypesc_long",
-                "description": "A list of field names for the struct statfs, including f_type, f_bsize, f_blocks, and more."
+                "type_name": "ctypesStructure",
+                "description": "A list of fields that make up the `struct statfs`. The list includes field names, data types, and sizes."
               }
             ],
             "name": "_struct_statfs",
@@ -926,19 +1203,24 @@
             "docLength": null
           },
           {
-            "id": "67f2c2ef-3588-738f-2b4d-456eb16a662f",
+            "id": "4a675f55-4cfb-40bd-2f4c-42516ea86592",
             "ancestors": [],
-            "description": "1. Calls the `_struct_statfs` function to retrieve file system information.\n2. Passes the path to be checked to the `_statfs` function.\n3. Returns the file type based on the information retrieved.",
+            "description": "Calculates the file system type of a path based on the struct statfs data returned by `_statfs`.",
             "params": [
               {
                 "name": "path",
-                "type_name": "str",
-                "description": "Used to specify the path to be statfs-ed."
+                "type_name": "ctypesbyrefobject",
+                "description": "Required to pass the path of a file system to be analyzed for its type."
               }
             ],
             "returns": {
-              "type_name": "ctypesbyrefdataf_type",
-              "description": "An instance of a struct representing file system information, specifically the file type (e.g., regular file, directory, etc.)."
+              "type_name": "ctypesc_ushort",
+              "description": "A 16-bit unsigned integer that represents the file system type of a given path."
+            },
+            "usage": {
+              "language": "python",
+              "code": "# get the file system type of /home directory\ntype = fstype('/home')\nprint(f'File system type for /home is {type}')",
+              "description": ""
             },
             "name": "fstype",
             "location": {
@@ -964,22 +1246,22 @@
     "path": "pcplib/test.py",
     "content": {
       "structured": {
-        "description": "Several classes and functions that perform various tasks, such as displaying information about an object, calculating statistics, and performing mathematical operations. The top-level function `top_level_function` takes two arguments, `x` and `y`, and returns a dictionary with the results of multiplying `x` and `y`, as well as checking if the result is greater than 10. Another function, `simple_function`, takes three arguments, `message`, `repeat`, and `uppercase`, and returns a modified version of the input message based on these arguments. The code also includes an example of using the functions to calculate statistics and display information about an object.",
+        "description": "Several classes and functions for handling data manipulation and statistical analysis. It includes a `SampleClass` with properties and methods for handling name and data, as well as a `top_level_function` that performs mathematical operations and returns a dictionary with various statistics. Additionally, there is a `simple_function` that takes a message and repeats it with an optional uppercase flag. Finally, the code includes some sample usage of these functions to demonstrate their functionality.",
         "items": [
           {
-            "id": "357d79ec-379e-63be-5a4b-7a41a8bc7962",
+            "id": "695d3225-4b0b-86a7-f54a-b2fdeb12f434",
             "ancestors": [],
-            "description": "Has three methods: `__init__`, `greet`, and `calculate_statistics`. The `__init__` method initializes instance variables, while `greet` returns a personalized greeting. `calculate_statistics` computes and returns statistical information about the data.",
+            "description": "Manages a name and a list of data, providing methods for calculating summary statistics and displaying information about the data.",
             "attributes": [
               {
                 "name": "name",
                 "type_name": "str",
-                "description": "Initialized in the `__init__` method with the parameter `name`. It stores the name value passed in the constructor."
+                "description": "Initialized to the name passed during initialization, serving as a unique identifier for the object."
               },
               {
                 "name": "data",
-                "type_name": "object",
-                "description": "Initialized with a value passed to the `__init__` method."
+                "type_name": "List[float]",
+                "description": "Used to store the input data for statistical calculations."
               }
             ],
             "name": "SampleClass",
@@ -995,24 +1277,29 @@
             "docLength": null
           },
           {
-            "id": "4dbca07b-66b1-d898-134a-71e3014061f8",
+            "id": "354a8a34-5731-e7b5-9b4f-af5027203065",
             "ancestors": [
-              "357d79ec-379e-63be-5a4b-7a41a8bc7962"
+              "695d3225-4b0b-86a7-f54a-b2fdeb12f434"
             ],
-            "description": "Initializes an instance of the `SampleClass` by setting the `name` and `data` attributes to the input parameters passed during object creation.",
+            "description": "Initializes an object by setting its `name` and `data` attributes to the input arguments provided during construction.",
             "params": [
               {
                 "name": "name",
                 "type_name": "str",
-                "description": "Assigned to the attribute `name` upon initialization, storing the value provided by the caller."
+                "description": "Used to assign a name to an instance of the class."
               },
               {
                 "name": "data",
                 "type_name": "object",
-                "description": "Used to initialize an instance variable named `data`."
+                "description": "Used to initialize the instance variables of the class with the given name."
               }
             ],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "# Create a new SampleClass object\nsample = SampleClass(\"John\", [1, 2, 3])\n\n# Use the greet method to print a personalized welcome message\nprint(sample.greet()) # Outputs: \"Hello, John! Welcome to our platform.\"\n\n# Use the calculate_statistics method to calculate statistics for the data provided\nstats = sample.calculate_statistics()\nif stats:\n    print(\"Data Count:\", stats['count']) # Outputs: \"Data Count: 3\"\n    print(\"Mean:\", stats['mean']) # Outputs: \"Mean: 2.00\"\n",
+              "description": ""
+            },
             "name": "__init__",
             "location": {
               "start": 3,
@@ -1021,20 +1308,25 @@
               "indent": 8,
               "comment": null
             },
-            "item_type": "method",
+            "item_type": "constructor",
             "length": 3,
             "docLength": null
           },
           {
-            "id": "6421c387-44a1-a2ac-8d42-f3cfde262618",
+            "id": "a0800e4c-c3bf-85ad-5d4e-8c58db572f2d",
             "ancestors": [
-              "357d79ec-379e-63be-5a4b-7a41a8bc7962"
+              "695d3225-4b0b-86a7-f54a-b2fdeb12f434"
             ],
-            "description": "Calculates various summary statistics (sum, count, mean, and median) for a list of values contained within an instance of the `SampleClass` object.",
+            "description": "Calculates and returns various statistical measures for a given dataset, including sum, count, mean, and median.",
             "params": [],
             "returns": {
-              "type_name": "dict",
-              "description": "4-element: sum, count, mean and median of an array or list data."
+              "type_name": "Dict[str,float]",
+              "description": "Composed of four statistical measures: sum, count, mean and median"
+            },
+            "usage": {
+              "language": "python",
+              "code": "sample = SampleClass(\"John Doe\", [1, 2, 3, 4, 5])\nstats = sample.calculate_statistics()\nprint(f\"Name: {sample.name}\")\nprint(f\"Data Count: {stats['count']}\")\nprint(f\"Mean: {stats['mean']:.2f}\")\n",
+              "description": ""
             },
             "name": "calculate_statistics",
             "location": {
@@ -1049,15 +1341,20 @@
             "docLength": null
           },
           {
-            "id": "acf2cc27-3160-3b82-1f4c-a2a47a1bed13",
+            "id": "e86fbaa5-a30a-a0ae-b14d-06965f09aa58",
             "ancestors": [
-              "357d79ec-379e-63be-5a4b-7a41a8bc7962"
+              "695d3225-4b0b-86a7-f54a-b2fdeb12f434"
             ],
-            "description": "Calculates and displays statistical information about a sample of data represented by an instance of `SampleClass`.",
+            "description": "Calculates and displays statistical information about the sample, including the count, mean, and median of the data, or simply \"No data available\" if no data is available.",
             "params": [],
             "returns": {
               "type_name": "str",
-              "description": "A string containing information about the data, including name, count, mean, and median."
+              "description": "A string containing information about the data, including the name, count, mean, and median."
+            },
+            "usage": {
+              "language": "python",
+              "code": "sample = SampleClass(\"John\", [1, 2, 3, 4, 5])\nprint(sample.display_info()) # Outputs: Name: John\\nData Count: 5\\nMean: 3.00\\nMedian: 3.00\n",
+              "description": ""
             },
             "name": "display_info",
             "location": {
@@ -1072,24 +1369,29 @@
             "docLength": null
           },
           {
-            "id": "2e90ed4a-acde-11ba-1a44-9510f7af6424",
+            "id": "90322e89-5cfb-3e98-ba45-4337222dc173",
             "ancestors": [],
-            "description": "Takes two arguments `x` and `y`, defines a nested function `nested_function`, calculates the sum and product of `x` and `y`, and returns a dictionary with four keys: `sum`, `product`, `status`, and `product_status`.",
+            "description": "Performs calculations and returns a dictionary with four values: `sum`, `product`, `status`, and `product_status`.",
             "params": [
               {
                 "name": "x",
-                "type_name": "int",
-                "description": "Passed as an argument to the nested `nested_function` function."
+                "type_name": "int|float",
+                "description": "Used in the calculation of the sum and product results."
               },
               {
                 "name": "y",
                 "type_name": "int",
-                "description": "Used in the calculation of the sum result."
+                "description": "Used in the nested `nested_function` function to compute the product of x and y."
               }
             ],
             "returns": {
-              "type_name": "Python",
-              "description": "A dictionary containing four key-value pairs: `sum`, `product`, `status`, and `product_status`."
+              "type_name": "Dict[str,int]",
+              "description": "A collection of four elements: sum, product, status and product_status. Each element contains an integer value."
+            },
+            "usage": {
+              "language": "python",
+              "code": "x, y = 5, 6\nresult = top_level_function(x, y)\nprint(f\"Sum result: {result['sum']}\")\nprint(f\"Product result: {result['product']}\")\nprint(f\"Status: {result['status']}\")\nprint(f\"Product status: {result['product_status']}\")\n",
+              "description": "\nThis code calls the top_level_function with arguments x=5 and y=6, which returns a dictionary containing the sum result, product result, status, and product_status. The print statements are used to display these results."
             },
             "name": "top_level_function",
             "location": {
@@ -1104,29 +1406,34 @@
             "docLength": null
           },
           {
-            "id": "7fc2dd8b-6893-549d-b242-c085ac20d62b",
+            "id": "54c42f08-4723-26b2-cf47-db89510e85cb",
             "ancestors": [],
-            "description": "Takes a message and an optional repeat and uppercase parameter, repeats the message with the given repeat value, strips the resulting string, and returns it with the specified case if enabled.",
+            "description": "Takes a message and an optional repeat and uppercase parameter, and returns the repeated message with the specified options applied.",
             "params": [
               {
                 "name": "message",
                 "type_name": "str",
-                "description": "Used to hold a string value that will be repeated and manipulated during the function's execution."
+                "description": "Used to represent the original message that will be repeated and modified."
               },
               {
                 "name": "repeat",
-                "type_name": "int",
-                "description": "Used to specify the number of times the passed message is concatenated with the space character before returning the final message."
+                "type_name": "int|float",
+                "description": "1 by default, allowing the user to call the function multiple times with different arguments by changing its value."
               },
               {
                 "name": "uppercase",
                 "type_name": "bool",
-                "description": "Used to determine if the final message should be made uppercase or not."
+                "description": "Used to specify whether the returned message should be in upper case or not."
               }
             ],
             "returns": {
               "type_name": "str",
-              "description": "A string that represents the concatenation of the input message and a specified repetition count, followed by stripping and possibly capitalizing the resulting string."
+              "description": "A string containing the message repeated the specified number of times and with the specified formatting option."
+            },
+            "usage": {
+              "language": "python",
+              "code": "# Calling the function and passing in a message and two arguments \nrepeated_message = simple_function(\"Hello, World!\", repeat=2, uppercase=True)\nprint(repeated_message)\n\n# Output: \"HELLO, WORLD! HELLO, WORLD!\"\n",
+              "description": ""
             },
             "name": "simple_function",
             "location": {
@@ -1149,16 +1456,21 @@
     "path": "setup.py",
     "content": {
       "structured": {
-        "description": "A build tool named `mybuild_py` that extends the `build` class from `setuptools`. The tool updates the version number of the package based on the current git repository or the distribution tarball, and then builds the `pcplib` package by generating a shared library for liblustreapi if necessary. Finally, it sets up the package metadata and creates an executable script named `pcp`.",
+        "description": "a custom build class `mybuild_py` that inherits from the `build` class in `setuptools`. The `mybuild_py` class defines two methods: `run`, which calls the `build_liblustre` function, and `build`, which calls the `run` method. The `build_liblustre` function checks if a liblustreapi.so file exists in the system, and if not, it generates one from liblustreapi.a using commands like `ar -x liblustreapi.a; gcc -shared *.o -o liblustreapi.so`. The function also defines a variable `have_sharedlib` or `have_staticlib` to keep track of whether a shared library or static library was found, respectively. If neither is found, the function prints an warning and continues with the build process without including lustre features.\n\nThe code also defines a `convert_liblustre` function that takes a library location as input and converts liblustreapi.a to liblustreapi.so using commands like `ar -x liblustreapi.a; gcc -shared *.o -o liblustreapi.so`. The function checks for errors and exists with a warning if conversion fails.\n\nOverall, the code is a build system that manages the generation of a liblustreapi.so file for use in a parallel copy program called `pcp`.",
         "items": [
           {
-            "id": "6ba2cdc6-d6aa-84bb-9a41-da60d4228031",
+            "id": "70bb3890-30af-3e9c-7242-4f0ec1c7ff76",
             "ancestors": [],
-            "description": "Updates the version number in a Python project by checking if it's a Git repository, running `git describe` command if it is, or checking the version number from distribution files if not. It then prints the updated version number and returns it.",
+            "description": "Determines and sets the version number of a Python project based on the contents of a `.git` directory or by reading the version number from a distribution file.",
             "params": [],
             "returns": {
               "type_name": "str",
-              "description": "The current version of the software."
+              "description": "The updated version number of the software."
+            },
+            "usage": {
+              "language": "python",
+              "code": "# Update the version number from git tag\nupdate_version()\n\n# Print the updated version number\nprint(\"Current version:\", get_current_version())\n",
+              "description": ""
             },
             "name": "update_version",
             "location": {
@@ -1176,13 +1488,18 @@
             "docLength": 4
           },
           {
-            "id": "161f5c04-5669-eb91-3440-89999bce60bc",
+            "id": "00c1452a-3f8a-96b9-2849-f256993e136d",
             "ancestors": [],
-            "description": "Checks for the presence of the `liblustreapi` shared or static library on the system, and copies it to the `pcplib` directory if not found.",
+            "description": "Searches for the Lustre API shared or static library on the system and copies it to the 'pcplib' directory if found, building the pcp client without Lustre features otherwise.",
             "params": [],
             "returns": {
               "type_name": "void",
-              "description": "Not captured or defined."
+              "description": "The outcome of searching for the liblustreapi C library."
+            },
+            "usage": {
+              "language": "python",
+              "code": "# Call the build_liblustre function and store the result in a variable\nresult = build_liblustre()\n\n# Print out the contents of the result variable to see if it was successful\nprint(result)\n",
+              "description": "\nThe function would be called without any parameters, since it is assumed that the necessary files for liblustreapi.so and liblustreapi.a are available in the system's default library locations (e.g. /usr/lib or /lib). The function would return None if the necessary files were not found, but if they were found, it would copy the liblustreapi.so file to the pcplib directory and convert the liblustreapi.a file to an object file using the convert_liblustre() function. The example code above shows how to call the function and store the result in a variable for further processing, but it does not demonstrate any other use of the function or provide any further context on how it is used in practice."
             },
             "name": "build_liblustre",
             "location": {
@@ -1200,17 +1517,22 @@
             "docLength": 2
           },
           {
-            "id": "045442ac-04e1-f2b5-5f45-96f6925297b1",
+            "id": "7324d6d2-0529-9da0-6149-8d835b083f99",
             "ancestors": [],
-            "description": "1) extracts the liblustreapi.a library, 2) compiles it into a shared library (.so), and 3) loads the resulting library into memory using ctypes.",
+            "description": "Converts the `liblustreapi.a` library to a shared object file (`liblustreapi.so`) and then loads it into memory using the `ctypes` module, making the `llapi_file_create` function available for use.",
             "params": [
               {
                 "name": "lib_location",
-                "type_name": "str",
-                "description": "Used to specify the location of the `liblustreapi.a` library file."
+                "type_name": "str|Path",
+                "description": "Used to specify the location of the liblustre library file."
               }
             ],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "convert_liblustre(\"path/to/liblustreapi.a\")\n",
+              "description": ""
+            },
             "name": "convert_liblustre",
             "location": {
               "start": 115,
@@ -1227,9 +1549,9 @@
             "docLength": 4
           },
           {
-            "id": "29ff8af1-c089-6499-d64f-8d619b810958",
+            "id": "14b90ef0-2a41-448c-084e-5d2d2b9d57b2",
             "ancestors": [],
-            "description": "Performs two functions: calling `build_liblustre()` and delegating to `run()`.",
+            "description": "Runs two builds: one for a library (`liblustre`) and another for the parent class (`build`).",
             "attributes": [],
             "name": "mybuild_py",
             "location": {
@@ -1244,13 +1566,18 @@
             "docLength": null
           },
           {
-            "id": "ae51270f-3420-0d83-4046-232a10aa9c49",
+            "id": "a866bfa7-13fd-cca7-6c4c-b4d3f38505b4",
             "ancestors": [
-              "29ff8af1-c089-6499-d64f-8d619b810958"
+              "14b90ef0-2a41-448c-084e-5d2d2b9d57b2"
             ],
-            "description": "Of `mybuild_py` class invokes the `build.run()` method, passing `self` as argument, to execute the build process.",
+            "description": "Executes two functions: building the LibLustre library and running the `build.run()` method as a child process.",
             "params": [],
             "returns": null,
+            "usage": {
+              "language": "python",
+              "code": "mybuild_py().run()\n",
+              "description": "\nThis code creates a new instance of the mybuild_py class and runs its run method. The build_liblustre() method is called first, then the run method of the parent class (build) is called."
+            },
             "name": "run",
             "location": {
               "start": 151,
