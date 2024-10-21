@@ -14,13 +14,16 @@ _clib = ctypes.CDLL("libc.so.6", use_errno=True)
 
 class _cdirent(ctypes.Structure):
     """
-    Defines a structure for representing directory entries, including file name,
-    inode number, offset within the file, and file type and length.
+    Represents a directory entry, a structure used in C to describe a file or
+    directory in a directory. It contains fields for inode number, offset, record
+    length, file type, and file name, allowing for manipulation and inspection of
+    directory entries.
 
     Attributes:
-        _fields_ (ctypesStructure): A list of fields defined for the structure,
-            including field names and data types: `["ino_t", "off_t", "d_reclen",
-            "d_type", "d_name"]`.
+        _fields_ (List[Dict[str,Union[ctypesStructure,ctypes_SimpleCData]]]):
+            Define. It is a list of dictionaries where each dictionary represents
+            a field of the struct. Each field is defined by a name and a type,
+            which can be either a ctypes structure or a simple ctypes data type.
 
     """
     _fields_ = [
@@ -49,27 +52,30 @@ _readdir.restype = _dirent_p
 
 class dirent(ctypes.Structure):
     """
-    Defines an object that represents a directory entry, allowing attributes to
-    be accessed and modified through its methods.
+    Represents a directory entry. It is based on a `ctypes.Structure` and inherits
+    its fields. The class can be initialized with or without a `cdirent` object,
+    and it sets the attributes of the `cdirent` object to the corresponding fields
+    in the class.
 
     Attributes:
-        DT_UNKNOWN (int|str): 0 by default, indicating that the file type is unknown
-            or not applicable.
-        DT_FIFO (int): 1 in the code snippet provided, indicating that the directory
-            entry is a FIFO (first-in-first-out) file system.
-        DT_CHR (int): 2 in value, indicating that the directory entry is a character
+        DT_UNKNOWN (int): Defined as a constant with a value of 0. It represents
+            an unknown file type in a directory.
+        DT_FIFO (int): Defined as 1. It represents a file type, specifically a
+            first-in-first-out (FIFO) file in Unix-like file systems.
+        DT_CHR (int): Represented by the value 2, indicating that the file is a
+            character device.
+        DT_DIR (int): Equal to 4. It represents a directory in the file system,
+            indicating that the file is a directory.
+        DT_BLK (int): Assigned the value 6. It is used to represent a block device,
+            such as a hard drive or flash drive, in the directory structure.
+        DT_REG (int): Defined as 8. It represents a regular file type in the file
+            system, indicating a file that is not a directory, symbolic link, or
             special file.
-        DT_DIR (int): 4, indicating that the file is a directory.
-        DT_BLK (Union[int,str]): 6th in the list of possible values for the directory
-            entry type.
-        DT_REG (int): 8 in value, indicating that the directory entry is a regular
-            file.
-        DT_LNK (Union[int,str]): 10th in the list of possible values for the `DT`
-            field, representing a symbolic link.
-        DT_SOCK (int): 12 in value, indicating that the directory entry represents
-            a socket file.
-        DT_WHT (str|int): 14th in the list of attributes. It represents the file
-            type as a whiteout, which can be either a string or an integer value.
+        DT_LNK (int): Defined as 10. It represents a symbolic link.
+        DT_SOCK (int): Defined as 12. It represents a socket in the file system,
+            indicating that a file is a socket.
+        DT_WHT (int): Defined as 14. It represents a whiteout file type, which is
+            a file type in some file systems that marks a directory entry as deleted.
 
     """
     DT_UNKNOWN = 0
@@ -84,12 +90,14 @@ class dirent(ctypes.Structure):
 
     def __init__(self, cdirent=None):
         """
-        Sets attributes to values from either the parent cdirent instance or the
-        default value of None if no value is provided.
+        Copies attributes from the cdirent object to the current object, if cdirent
+        is not None. If cdirent is None, it sets all attributes to None. The
+        attributes are extracted from the _fields_ attribute of the cdirent object,
+        which is assumed to be a ctypes.Structure.
 
         Args:
-            cdirent (object): Used to initialize instance attributes with values
-                from the class dictionary.
+            cdirent (Any): Used to initialize the object's attributes with values
+                from an existing `_cdirent` object, if provided.
 
         """
         attributes = [a[0] for a in _cdirent._fields_]
@@ -101,14 +109,15 @@ class dirent(ctypes.Structure):
 
 def readdir(directory):
     """
-    Iteratively reads and returns a list of directories and files in a specified
-    directory.
+    Lists the contents of a specified directory. It opens the directory, reads its
+    entries one by one, and stores them in a list, which is then returned.
 
     Args:
-        directory (str): A path to a directory for which entries will be read.
+        directory (str): Used to specify the path of the directory to be read.
 
     Returns:
-        List[str]: A list of file and directory names in a given directory.
+        List[dirent]: A list of directory entries. Each entry is a `dirent` object,
+        containing information about a file or directory in the specified directory.
 
     """
     entries = []
