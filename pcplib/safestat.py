@@ -7,15 +7,16 @@ import errno
 
 def safestat(filename):
     """
-    Tries to stat a file repeatedly until it succeeds, returning the last successful
-    stat data if successful.
+    Attempts to retrieve file status information for a given filename, using a
+    retry mechanism to handle interrupted system calls and other transient errors.
 
     Args:
-        filename (str): Passed as the address of a filename to check for modification.
+        filename (str): Designated to hold the path to a file for which the file
+            status data is to be retrieved.
 
     Returns:
-        StatData|None: 16-bit integer containing file metadata or None if an error
-        occurs during stat operation.
+        osstat_result: A collection of file status information, including file
+        type, permissions, owner, group, and other attributes.
 
     """
     while True:
