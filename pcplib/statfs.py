@@ -10,11 +10,14 @@ This module provides python bindings for statfs.
 # C data structures
 class _fsid(ctypes.Structure):
     """
-    Defines a structure with two `ctypes.c_int` members, which likely represent a
-    file system identifier for use in low-level system interactions.
+    Represents a file system identifier as a 2-element integer array, where each
+    element is a part of the file system ID. The `val` field is a ctypes array of
+    two integers.
 
     Attributes:
-        _fields_ (ctypesStructure): 2-element list of `ctypes.c_int`.
+        _fields_ (List[Dict[str,Union[ctypesStructure,ctypesc_int]]]): Specifying
+            the structure of the class with a list of dictionaries, where each
+            dictionary contains information about a field in the class.
 
     """
     _fields_ = [
@@ -23,12 +26,15 @@ class _fsid(ctypes.Structure):
 
 class _struct_statfs(ctypes.Structure):
     """
-    Defines a structure for representing file system information, including type,
-    block size, blocks, available blocks, free space, files, and various flags.
+    Defines a data structure to represent file system statistics, containing fields
+    for file system type, block size, available blocks and inodes, and other file
+    system metadata.
 
     Attributes:
-        _fields_ (ctypesStructure): A list of fields that make up the `struct
-            statfs`. The list includes field names, data types, and sizes.
+        _fields_ (List[ctypesStructField]): Defined to contain a list of fields
+            that make up the `statfs` structure. Each field is represented by a
+            `ctypes.StructField` object, which contains information about the
+            field's name, type, and offset within the structure.
 
     """
     _fields_ = [
@@ -55,16 +61,16 @@ _statfs.argtypes = [ctypes.c_char_p, _struct_statfs_p]
 
 def fstype(path):
     """
-    Calculates the file system type of a path based on the struct statfs data
-    returned by `_statfs`.
+    Returns the file system type of the file system containing the specified `path`.
+    It uses the `_statfs` function to retrieve file system statistics and the
+    `_struct_statfs` function to define the data structure for these statistics.
 
     Args:
-        path (ctypesbyrefobject): Required to pass the path of a file system to
-            be analyzed for its type.
+        path (str): Designated a file system path.
 
     Returns:
-        ctypesc_ushort: A 16-bit unsigned integer that represents the file system
-        type of a given path.
+        ctypesc_int32: The file system type of the file system containing the
+        specified path.
 
     """
 
